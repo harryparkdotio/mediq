@@ -1,0 +1,15 @@
+{
+	"extends": ["tslint:recommended"],
+	"defaultSeverity": "error",
+	"rules": {
+		"arrow-parens": [true, "ban-single-arg-parens"],
+		"indent": [true, "tabs", 4],
+		"max-line-length": [false],
+		"member-access": false,
+		"object-literal-sort-keys": false,
+		"only-arrow-functions": false,
+		"ordered-imports": false,
+		"quotemark": [true, "single"],
+		"trailing-comma": [true, {"multiline": "always", "singleline": "never"}]
+	}
+}
