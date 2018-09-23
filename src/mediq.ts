@@ -23,12 +23,15 @@ export interface IMediqFeatures {
 	orientation: Keywords.MediqOrientation;
 	resolution(resolution: number): MediqResolution;
 	scan: Keywords.MediqScan;
+	grid(grid: 0 | 1): Mediq;
 	update: Keywords.MediqUpdate;
 	overflowBlock: Keywords.MediqOverflowBlock;
 	overflowInline: Keywords.MediqOverflowInline;
 	color(bits: number): Mediq;
 	colorGamut: Keywords.MediqColorGamut;
+	colorIndex(colorIndex: number): Mediq;
 	displayMode: Keywords.MediqDisplayMode;
+	monochrome(monochrome: 0 | 1): Mediq;
 	invertedColors: Keywords.MediqInvertedColors;
 	anyPointer: Keywords.MediqPointer;
 	pointer: Keywords.MediqPointer;
@@ -116,6 +119,10 @@ export class Mediq implements IMediq {
 		return new Keywords.MediqScan(this);
 	}
 
+	public grid(grid: 0 | 1): this {
+		return this.feature(Features.grid, grid === 0 ? 0 : grid === 1 ? 1 : 0);
+	}
+
 	public get update(): Keywords.MediqUpdate {
 		this.feature(Features.update);
 		return new Keywords.MediqUpdate(this);
@@ -140,9 +147,17 @@ export class Mediq implements IMediq {
 		return new Keywords.MediqColorGamut(this);
 	}
 
+	public colorIndex(colorIndex: number): this {
+		return this.feature(Features.colorIndex, colorIndex);
+	}
+
 	public get displayMode(): Keywords.MediqDisplayMode {
 		this.feature(Features.displayMode);
 		return new Keywords.MediqDisplayMode(this);
+	}
+
+	public monochrome(monochrome: 0 | 1): this {
+		return this.feature(Features.monochrome, monochrome === 0 ? 0 : monochrome === 1 ? 1 : 0);
 	}
 
 	public get invertedColors(): Keywords.MediqInvertedColors {

@@ -133,6 +133,32 @@ describe('features', () => {
 		});
 	});
 
+	describe('grid', () => {
+		it('should set grid 0', () => {
+			const m = mediq();
+			m.grid(0);
+			expect(m.chain).toEqual(['grid', 0]);
+		});
+
+		it('should set grid 1', () => {
+			const m = mediq();
+			m.grid(1);
+			expect(m.chain).toEqual(['grid', 1]);
+		});
+
+		it('should set grid 0 if invalid param provided', () => {
+			const m = mediq();
+			// @ts-ignore
+			m.grid(2);
+			expect(m.chain).toEqual(['grid', 0]);
+		});
+
+		it('should return Mediq instance', () => {
+			const m = mediq();
+			expect(m.grid(0)).toBe(m);
+		});
+	});
+
 	describe('update', () => {
 		it('should set update', () => {
 			const m = mediq();
@@ -202,6 +228,19 @@ describe('features', () => {
 		});
 	});
 
+	describe('color-index', () => {
+		it('should set color-index', () => {
+			const m = mediq();
+			m.colorIndex(10);
+			expect(m.chain).toEqual(['color-index', 10]);
+		});
+
+		it('should return Mediq instance', () => {
+			const m = mediq();
+			expect(m.colorIndex(10)).toBe(m);
+		});
+	});
+
 	describe('display-mode', () => {
 		it('should set display-mode', () => {
 			const m = mediq();
@@ -213,6 +252,32 @@ describe('features', () => {
 		it('should return MediqDisplayMode instance', () => {
 			const m = mediq();
 			expect(m.displayMode).toBeInstanceOf(Keywords.MediqDisplayMode);
+		});
+	});
+
+	describe('monochrome', () => {
+		it('should set monochrome 0', () => {
+			const m = mediq();
+			m.monochrome(0);
+			expect(m.chain).toEqual(['monochrome', 0]);
+		});
+
+		it('should set monochrome 1', () => {
+			const m = mediq();
+			m.monochrome(1);
+			expect(m.chain).toEqual(['monochrome', 1]);
+		});
+
+		it('should set monochrome 0 if invalid param provided', () => {
+			const m = mediq();
+			// @ts-ignore
+			m.monochrome(2);
+			expect(m.chain).toEqual(['monochrome', 0]);
+		});
+
+		it('should return Mediq instance', () => {
+			const m = mediq();
+			expect(m.monochrome(0)).toBe(m);
 		});
 	});
 
