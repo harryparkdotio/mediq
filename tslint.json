@@ -6,6 +6,7 @@
 		"indent": [true, "tabs", 4],
 		"max-line-length": [false],
 		"member-access": false,
+		"member-ordering": false,
 		"object-literal-sort-keys": false,
 		"only-arrow-functions": false,
 		"ordered-imports": false,
