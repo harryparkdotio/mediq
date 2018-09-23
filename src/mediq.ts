@@ -1,10 +1,18 @@
 import { Features } from './constants/features';
+import { Operators } from './constants/operators';
 import * as Keywords from './keywords';
 import { MediqLength } from './units/length';
 import { MediqResolution } from './units/resolution';
 
 export function mediq() {
 	return new Mediq();
+}
+
+export interface IMediqOperators {
+	and: Mediq;
+	not: Mediq;
+	only: Mediq;
+	or: Mediq;
 }
 
 export interface IMediqFeatures {
@@ -31,8 +39,7 @@ export interface IMediqFeatures {
 	scripting: Keywords.MediqScripting;
 }
 
-// tslint:disable-next-line:no-empty-interface
-export interface IMediq extends IMediqFeatures {
+export interface IMediq extends IMediqOperators, IMediqFeatures {
 
 }
 
@@ -41,6 +48,27 @@ export class Mediq implements IMediq {
 
 	constructor() {
 		this.chain = [];
+	}
+
+	private operator(operator: Operators): this {
+		this.chain.push(operator);
+		return this;
+	}
+
+	public get and(): this {
+		return this.operator(Operators.and);
+	}
+
+	public get not(): this {
+		return this.operator(Operators.not);
+	}
+
+	public get only(): this {
+		return this.operator(Operators.only);
+	}
+
+	public get or(): this {
+		return this.operator(Operators.or);
 	}
 
 	private feature(feature: Features, value?: any): this {
