@@ -1,6 +1,6 @@
-import { MediqLength } from '../../../src/units/length';
 import { LengthUnits } from '../../../src/constants/units';
 import { Mediq } from '../../../src/mediq';
+import { MediqLength } from '../../../src/units/length';
 
 describe('MediqLength', () => {
 	it('should have units', () => {

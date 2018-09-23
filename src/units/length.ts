@@ -1,6 +1,6 @@
+import { LengthUnits, Units } from '../constants/units';
 import { Mediq } from '../mediq';
 import { MediqUnits } from './units';
-import { Units, LengthUnits } from '../constants/units';
 
 export class MediqLength extends MediqUnits implements Record<LengthUnits, Mediq> {
 	public get em(): Mediq {

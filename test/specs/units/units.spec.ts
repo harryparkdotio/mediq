@@ -1,6 +1,6 @@
-import { MediqUnits } from '../../../src/units/units';
 import { Units } from '../../../src/constants/units';
 import { Mediq } from '../../../src/mediq';
+import { MediqUnits } from '../../../src/units/units';
 
 class Mop extends MediqUnits {
 	public get use() {

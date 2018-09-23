@@ -1,5 +1,5 @@
-import { MediqKeywords } from '../../../src/keywords/keywords';
 import { Keywords } from '../../../src/constants/keywords';
+import { MediqKeywords } from '../../../src/keywords/keywords';
 import { Mediq } from '../../../src/mediq';
 
 class Mop extends MediqKeywords {

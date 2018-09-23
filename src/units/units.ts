@@ -1,5 +1,5 @@
-import { Mediq } from '../mediq';
 import { Units } from '../constants/units';
+import { Mediq } from '../mediq';
 
 export abstract class MediqUnits {
 	constructor(private mediq: Mediq) {}
