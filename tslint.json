@@ -9,7 +9,6 @@
 		"member-ordering": false,
 		"object-literal-sort-keys": false,
 		"only-arrow-functions": false,
-		"ordered-imports": false,
 		"quotemark": [true, "single"],
 		"trailing-comma": [true, {"multiline": "always", "singleline": "never"}]
 	}

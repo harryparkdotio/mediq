@@ -1,6 +1,6 @@
-import { MediqResolution } from '../../../src/units/resolution';
 import { ResolutionUnits } from '../../../src/constants/units';
 import { Mediq } from '../../../src/mediq';
+import { MediqResolution } from '../../../src/units/resolution';
 
 describe('MediqResolution', () => {
 	it('should have units', () => {

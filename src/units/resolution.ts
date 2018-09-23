@@ -1,6 +1,6 @@
+import { ResolutionUnits, Units } from '../constants/units';
 import { Mediq } from '../mediq';
 import { MediqUnits } from './units';
-import { Units, ResolutionUnits } from '../constants/units';
 
 export class MediqResolution extends MediqUnits implements Record<ResolutionUnits, Mediq> {
 	public get dpi(): Mediq {

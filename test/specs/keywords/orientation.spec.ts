@@ -1,5 +1,5 @@
-import { MediqOrientation } from '../../../src/keywords/orientation';
 import { OrientationKeywords } from '../../../src/constants/keywords';
+import { MediqOrientation } from '../../../src/keywords';
 import { Mediq } from '../../../src/mediq';
 
 describe('MediqOrientation', () => {

@@ -1,5 +1,5 @@
-import { Mediq } from '../mediq';
 import { Keywords } from '../constants/keywords';
+import { Mediq } from '../mediq';
 
 export abstract class MediqKeywords {
 	constructor(private mediq: Mediq) {}
