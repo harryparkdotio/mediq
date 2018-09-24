@@ -1,5 +1,6 @@
 import { Features } from './constants/features';
 import { Operators } from './constants/operators';
+import { Prefixes } from './constants/prefixes';
 import { Types } from './constants/types';
 import * as Keywords from './keywords';
 import { MediqLength } from './units/length';
@@ -12,6 +13,8 @@ export function mediq() {
 export type MediqTypes = Record<keyof typeof Types, Mediq>;
 
 export type MediqOperators = Record<keyof typeof Operators, Mediq>;
+
+export type MediqPrefixes = Record<keyof typeof Prefixes, Mediq>;
 
 export interface IMediqFeatures {
 	width(width: number): MediqLength;
@@ -40,7 +43,7 @@ export interface IMediqFeatures {
 	scripting: Keywords.MediqScripting;
 }
 
-export interface IMediq extends MediqTypes, MediqOperators, IMediqFeatures {
+export interface IMediq extends MediqTypes, MediqOperators, MediqPrefixes, IMediqFeatures {
 
 }
 
@@ -91,6 +94,19 @@ export class Mediq implements IMediq {
 
 	public get or(): this {
 		return this.operator(Operators.or);
+	}
+
+	private prefix(prefix: Prefixes): this {
+		this.chain.push(prefix);
+		return this;
+	}
+
+	public get min(): this {
+		return this.prefix(Prefixes.min);
+	}
+
+	public get max(): this {
+		return this.prefix(Prefixes.max);
 	}
 
 	private feature(feature: Features, value?: any): this {
