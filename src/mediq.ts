@@ -1,3 +1,4 @@
+import { MediqChainProperty, Properties } from './chain';
 import { Features } from './constants/features';
 import { Operators } from './constants/operators';
 import { Prefixes } from './constants/prefixes';
@@ -48,14 +49,14 @@ export interface IMediq extends MediqTypes, MediqOperators, MediqPrefixes, IMedi
 }
 
 export class Mediq implements IMediq {
-	public chain: any[];
+	public chain: MediqChainProperty[];
 
 	constructor() {
 		this.chain = [];
 	}
 
 	private type(type: Types): this {
-		this.chain.push(type);
+		this.chain.push(new Properties.MediqChainType(type));
 		return this;
 	}
 
@@ -76,7 +77,7 @@ export class Mediq implements IMediq {
 	}
 
 	private operator(operator: Operators): this {
-		this.chain.push(operator);
+		this.chain.push(new Properties.MediqChainOperator(operator));
 		return this;
 	}
 
@@ -97,7 +98,7 @@ export class Mediq implements IMediq {
 	}
 
 	private prefix(prefix: Prefixes): this {
-		this.chain.push(prefix);
+		this.chain.push(new Properties.MediqChainPrefix(prefix));
 		return this;
 	}
 
@@ -110,10 +111,9 @@ export class Mediq implements IMediq {
 	}
 
 	private feature(feature: Features, value?: any): this {
+		this.chain.push(new Properties.MediqChainFeature(feature));
 		if (value !== undefined) {
-			this.chain.push(feature, value);
-		} else {
-			this.chain.push(feature);
+			this.chain.push(new Properties.MediqChainValue(value));
 		}
 		return this;
 	}

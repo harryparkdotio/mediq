@@ -21,7 +21,9 @@ describe('MediqUnits', () => {
 			const mop = new Mop(m);
 			// tslint:disable-next-line:no-unused-expression
 			mop.use;
-			expect(m.chain).toEqual(['cm']);
+			expect(m.chain[0].type).toEqual('unit');
+			expect(m.chain[0].value).toEqual('cm');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 });
