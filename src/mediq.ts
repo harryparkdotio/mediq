@@ -1,5 +1,6 @@
 import { Features } from './constants/features';
 import { Operators } from './constants/operators';
+import { Types } from './constants/types';
 import * as Keywords from './keywords';
 import { MediqLength } from './units/length';
 import { MediqResolution } from './units/resolution';
@@ -8,12 +9,9 @@ export function mediq() {
 	return new Mediq();
 }
 
-export interface IMediqOperators {
-	and: Mediq;
-	not: Mediq;
-	only: Mediq;
-	or: Mediq;
-}
+export type MediqTypes = Record<keyof typeof Types, Mediq>;
+
+export type MediqOperators = Record<keyof typeof Operators, Mediq>;
 
 export interface IMediqFeatures {
 	width(width: number): MediqLength;
@@ -42,7 +40,7 @@ export interface IMediqFeatures {
 	scripting: Keywords.MediqScripting;
 }
 
-export interface IMediq extends IMediqOperators, IMediqFeatures {
+export interface IMediq extends MediqTypes, MediqOperators, IMediqFeatures {
 
 }
 
@@ -51,6 +49,27 @@ export class Mediq implements IMediq {
 
 	constructor() {
 		this.chain = [];
+	}
+
+	private type(type: Types): this {
+		this.chain.push(type);
+		return this;
+	}
+
+	public get all(): this {
+		return this.type(Types.all);
+	}
+
+	public get print(): this {
+		return this.type(Types.print);
+	}
+
+	public get screen(): this {
+		return this.type(Types.screen);
+	}
+
+	public get speech(): this {
+		return this.type(Types.speech);
 	}
 
 	private operator(operator: Operators): this {

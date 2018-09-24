@@ -9,6 +9,44 @@ describe('mediq', () => {
 	});
 });
 
+describe('types', () => {
+	describe('all', () => {
+		it('should add type', () => {
+			const m = mediq();
+			// tslint:disable-next-line:no-unused-expression
+			m.all;
+			expect(m.chain).toEqual(['all']);
+		});
+	});
+
+	describe('print', () => {
+		it('should add type', () => {
+			const m = mediq();
+			// tslint:disable-next-line:no-unused-expression
+			m.print;
+			expect(m.chain).toEqual(['print']);
+		});
+	});
+
+	describe('screen', () => {
+		it('should add type', () => {
+			const m = mediq();
+			// tslint:disable-next-line:no-unused-expression
+			m.screen;
+			expect(m.chain).toEqual(['screen']);
+		});
+	});
+
+	describe('speech', () => {
+		it('should add type', () => {
+			const m = mediq();
+			// tslint:disable-next-line:no-unused-expression
+			m.speech;
+			expect(m.chain).toEqual(['speech']);
+		});
+	});
+});
+
 describe('operators', () => {
 	describe('and', () => {
 		it('should add operator', () => {
