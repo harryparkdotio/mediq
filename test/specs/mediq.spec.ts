@@ -85,6 +85,26 @@ describe('operators', () => {
 	});
 });
 
+describe('prefixes', () => {
+	describe('min', () => {
+		it('should add prefix', () => {
+			const m = mediq();
+			// tslint:disable-next-line:no-unused-expression
+			m.min;
+			expect(m.chain).toEqual(['min']);
+		});
+	});
+
+	describe('max', () => {
+		it('should add prefix', () => {
+			const m = mediq();
+			// tslint:disable-next-line:no-unused-expression
+			m.max;
+			expect(m.chain).toEqual(['max']);
+		});
+	});
+});
+
 describe('features', () => {
 	describe('width', () => {
 		it('should set width', () => {
