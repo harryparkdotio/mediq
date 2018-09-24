@@ -95,7 +95,7 @@ describe('operators', () => {
 			// tslint:disable-next-line:no-unused-expression
 			m.or;
 			expect(m.chain[0].type).toEqual('operator');
-			expect(m.chain[0].value).toEqual('or');
+			expect(m.chain[0].value).toEqual(',');
 			expect(m.chain).toHaveLength(1);
 		});
 	});
