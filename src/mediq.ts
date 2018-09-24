@@ -1,8 +1,5 @@
 import { MediqChainProperty, Properties } from './chain';
-import { Features } from './constants/features';
-import { Operators } from './constants/operators';
-import { Prefixes } from './constants/prefixes';
-import { Types } from './constants/types';
+import { Features, Operators, Prefixes, Types } from './constants';
 import * as Keywords from './keywords';
 import { MediqLength } from './units/length';
 import { MediqResolution } from './units/resolution';
