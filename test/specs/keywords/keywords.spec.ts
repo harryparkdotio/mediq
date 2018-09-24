@@ -21,7 +21,9 @@ describe('MediqKeywords', () => {
 			const mop = new Mop(m);
 			// tslint:disable-next-line:no-unused-expression
 			mop.use;
-			expect(m.chain).toEqual(['landscape']);
+			expect(m.chain[0].type).toEqual('keyword');
+			expect(m.chain[0].value).toEqual('landscape');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 });

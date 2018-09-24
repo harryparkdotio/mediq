@@ -15,7 +15,9 @@ describe('types', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.all;
-			expect(m.chain).toEqual(['all']);
+			expect(m.chain[0].type).toEqual('type');
+			expect(m.chain[0].value).toEqual('all');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 
@@ -24,7 +26,9 @@ describe('types', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.print;
-			expect(m.chain).toEqual(['print']);
+			expect(m.chain[0].type).toEqual('type');
+			expect(m.chain[0].value).toEqual('print');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 
@@ -33,7 +37,9 @@ describe('types', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.screen;
-			expect(m.chain).toEqual(['screen']);
+			expect(m.chain[0].type).toEqual('type');
+			expect(m.chain[0].value).toEqual('screen');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 
@@ -42,7 +48,9 @@ describe('types', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.speech;
-			expect(m.chain).toEqual(['speech']);
+			expect(m.chain[0].type).toEqual('type');
+			expect(m.chain[0].value).toEqual('speech');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 });
@@ -53,7 +61,9 @@ describe('operators', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.and;
-			expect(m.chain).toEqual(['and']);
+			expect(m.chain[0].type).toEqual('operator');
+			expect(m.chain[0].value).toEqual('and');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 
@@ -62,7 +72,9 @@ describe('operators', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.not;
-			expect(m.chain).toEqual(['not']);
+			expect(m.chain[0].type).toEqual('operator');
+			expect(m.chain[0].value).toEqual('not');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 
@@ -71,7 +83,9 @@ describe('operators', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.only;
-			expect(m.chain).toEqual(['only']);
+			expect(m.chain[0].type).toEqual('operator');
+			expect(m.chain[0].value).toEqual('only');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 
@@ -80,7 +94,9 @@ describe('operators', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.or;
-			expect(m.chain).toEqual(['or']);
+			expect(m.chain[0].type).toEqual('operator');
+			expect(m.chain[0].value).toEqual('or');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 });
@@ -91,7 +107,9 @@ describe('prefixes', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.min;
-			expect(m.chain).toEqual(['min']);
+			expect(m.chain[0].type).toEqual('prefix');
+			expect(m.chain[0].value).toEqual('min');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 
@@ -100,7 +118,9 @@ describe('prefixes', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.max;
-			expect(m.chain).toEqual(['max']);
+			expect(m.chain[0].type).toEqual('prefix');
+			expect(m.chain[0].value).toEqual('max');
+			expect(m.chain).toHaveLength(1);
 		});
 	});
 });
@@ -110,7 +130,11 @@ describe('features', () => {
 		it('should set width', () => {
 			const m = mediq();
 			m.width(200);
-			expect(m.chain).toEqual(['width', 200]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('width');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(200);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should return MediqLength instance', () => {
@@ -123,7 +147,11 @@ describe('features', () => {
 		it('should set height', () => {
 			const m = mediq();
 			m.height(200);
-			expect(m.chain).toEqual(['height', 200]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('height');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(200);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should return MediqLength instance', () => {
@@ -135,18 +163,26 @@ describe('features', () => {
 	describe('aspect-ratio', () => {
 		it('should set aspect-ratio (string)', () => {
 			const m = mediq().aspectRatio('1/2');
-			expect(m.chain).toEqual(['aspect-ratio', '1/2']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('aspect-ratio');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual('1/2');
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should set aspect-ratio (numbers)', () => {
 			const m = mediq().aspectRatio(1, 2);
-			expect(m.chain).toEqual(['aspect-ratio', '1/2']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('aspect-ratio');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual('1/2');
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should not set aspect-ratio if invalid params provided', () => {
 			// @ts-ignore
 			const m = mediq().aspectRatio(1, '2');
-			expect(m.chain).toEqual([]);
+			expect(m.chain).toHaveLength(0);
 		});
 	});
 
@@ -155,7 +191,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.orientation;
-			expect(m.chain).toEqual(['orientation']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('orientation');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqOrientation instance', () => {
@@ -168,7 +206,11 @@ describe('features', () => {
 		it('should set resolution', () => {
 			const m = mediq();
 			m.resolution(200);
-			expect(m.chain).toEqual(['resolution', 200]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('resolution');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(200);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should return MediqResolution instance', () => {
@@ -182,7 +224,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.scan;
-			expect(m.chain).toEqual(['scan']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('scan');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqScan instance', () => {
@@ -195,20 +239,32 @@ describe('features', () => {
 		it('should set grid 0', () => {
 			const m = mediq();
 			m.grid(0);
-			expect(m.chain).toEqual(['grid', 0]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('grid');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(0);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should set grid 1', () => {
 			const m = mediq();
 			m.grid(1);
-			expect(m.chain).toEqual(['grid', 1]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('grid');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(1);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should set grid 0 if invalid param provided', () => {
 			const m = mediq();
 			// @ts-ignore
 			m.grid(2);
-			expect(m.chain).toEqual(['grid', 0]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('grid');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(0);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should return Mediq instance', () => {
@@ -222,7 +278,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.update;
-			expect(m.chain).toEqual(['update']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('update');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqUpdate instance', () => {
@@ -236,7 +294,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.overflowBlock;
-			expect(m.chain).toEqual(['overflow-block']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('overflow-block');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqOverflowBlock instance', () => {
@@ -250,7 +310,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.overflowInline;
-			expect(m.chain).toEqual(['overflow-inline']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('overflow-inline');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqOverflowInline instance', () => {
@@ -263,7 +325,11 @@ describe('features', () => {
 		it('should set color', () => {
 			const m = mediq();
 			m.color(8);
-			expect(m.chain).toEqual(['color', 8]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('color');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(8);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should return Mediq instance', () => {
@@ -277,7 +343,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.colorGamut;
-			expect(m.chain).toEqual(['color-gamut']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('color-gamut');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqColorGamut instance', () => {
@@ -290,7 +358,11 @@ describe('features', () => {
 		it('should set color-index', () => {
 			const m = mediq();
 			m.colorIndex(10);
-			expect(m.chain).toEqual(['color-index', 10]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('color-index');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(10);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should return Mediq instance', () => {
@@ -304,7 +376,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.displayMode;
-			expect(m.chain).toEqual(['display-mode']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('display-mode');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqDisplayMode instance', () => {
@@ -317,20 +391,32 @@ describe('features', () => {
 		it('should set monochrome 0', () => {
 			const m = mediq();
 			m.monochrome(0);
-			expect(m.chain).toEqual(['monochrome', 0]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('monochrome');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(0);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should set monochrome 1', () => {
 			const m = mediq();
 			m.monochrome(1);
-			expect(m.chain).toEqual(['monochrome', 1]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('monochrome');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(1);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should set monochrome 0 if invalid param provided', () => {
 			const m = mediq();
 			// @ts-ignore
 			m.monochrome(2);
-			expect(m.chain).toEqual(['monochrome', 0]);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('monochrome');
+			expect(m.chain[1].type).toEqual('value');
+			expect(m.chain[1].value).toEqual(0);
+			expect(m.chain).toHaveLength(2);
 		});
 
 		it('should return Mediq instance', () => {
@@ -344,7 +430,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.invertedColors;
-			expect(m.chain).toEqual(['inverted-colors']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('inverted-colors');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqInvertedColors instance', () => {
@@ -358,7 +446,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.anyPointer;
-			expect(m.chain).toEqual(['any-pointer']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('any-pointer');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqPointer instance', () => {
@@ -372,7 +462,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.pointer;
-			expect(m.chain).toEqual(['pointer']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('pointer');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqPointer instance', () => {
@@ -386,7 +478,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.anyHover;
-			expect(m.chain).toEqual(['any-hover']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('any-hover');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqHover instance', () => {
@@ -400,7 +494,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.hover;
-			expect(m.chain).toEqual(['hover']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('hover');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqHover instance', () => {
@@ -414,7 +510,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.lightLevel;
-			expect(m.chain).toEqual(['light-level']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('light-level');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqLightLevel instance', () => {
@@ -428,7 +526,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.prefersReducedMotion;
-			expect(m.chain).toEqual(['prefers-reduced-motion']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('prefers-reduced-motion');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqPrefersReducedMotion instance', () => {
@@ -442,7 +542,9 @@ describe('features', () => {
 			const m = mediq();
 			// tslint:disable-next-line:no-unused-expression
 			m.scripting;
-			expect(m.chain).toEqual(['scripting']);
+			expect(m.chain[0].type).toEqual('feature');
+			expect(m.chain[0].value).toEqual('scripting');
+			expect(m.chain).toHaveLength(1);
 		});
 
 		it('should return MediqScripting instance', () => {
