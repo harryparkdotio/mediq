@@ -23,8 +23,8 @@ describe('prototype functions', () => {
 
 		it('should return assembled media query', () => {
 			const m = mediq();
-			const query =  m.screen.and.min.width(200).px;
-			expect(query.toString()).toBe('screen and (min-width: 200px)');
+			const query = m.screen.and.min.width(200).px;
+			expect(query.toString()).toBe('@media screen and (min-width: 200px)');
 		});
 	});
 
@@ -40,8 +40,8 @@ describe('prototype functions', () => {
 
 		it('should return assembled media query', () => {
 			const m = mediq();
-			const query =  m.screen.and.min.width(200).px;
-			expect(query.valueOf()).toBe('screen and (min-width: 200px)');
+			const query = m.screen.and.min.width(200).px;
+			expect(query.valueOf()).toBe('@media screen and (min-width: 200px)');
 		});
 	});
 
@@ -57,8 +57,8 @@ describe('prototype functions', () => {
 
 		it('should return assembled media query', () => {
 			const m = mediq();
-			const query =  m.screen.and.min.width(200).px;
-			expect(query.toJSON()).toBe('screen and (min-width: 200px)');
+			const query = m.screen.and.min.width(200).px;
+			expect(query.toJSON()).toBe('@media screen and (min-width: 200px)');
 		});
 	});
 
@@ -75,7 +75,7 @@ describe('prototype functions', () => {
 
 		it('should return assembled media query', () => {
 			const m = mediq();
-			const query =  m.screen.and.min.width(200).px;
+			const query = m.screen.and.min.width(200).px;
 			expect(query.length).toBe(query.exec().length);
 		});
 	});
@@ -145,6 +145,12 @@ describe('functions', () => {
 			m.exec();
 
 			expect(MediqAssembler.prototype.assemble).toHaveBeenCalled();
+		});
+
+		it('should return assembled media query', () => {
+			const m = mediq();
+			const query = m.screen.and.min.width(200).px;
+			expect(query.toString()).toBe('@media screen and (min-width: 200px)');
 		});
 	});
 });

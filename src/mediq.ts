@@ -59,7 +59,7 @@ export class Mediq implements IMediq {
 	}
 
 	public exec(): string {
-		return this.assembler.assemble();
+		return `@media ${this.assembler.assemble()}`;
 	}
 
 	public toString(): string {
