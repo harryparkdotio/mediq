@@ -1,7 +1,8 @@
 language: node_js
 
 node_js:
-  - "10"
+  - '8'
+  - '10'
 
 sudo: false
 
@@ -15,9 +16,10 @@ install:
 cache:
   yarn: true
   directories:
-    - "node_modules"
+    - 'node_modules'
 
 script:
+  - yarn build
   - yarn test
 
 after_success: yarn cover
@@ -25,4 +27,22 @@ after_success: yarn cover
 notifications:
   email:
     on_success: never
-    on_failure: change
+    on_failure: never
+
+stages:
+  - test
+  - name: deploy
+    if: type = push AND tag IS present
+
+jobs:
+  include:
+    - stage: deploy
+      node_js: '10'
+      script: yarn build
+      deploy:
+        skip_cleanup: true
+        provider: npm
+        email: $NPM_EMAIL
+        api_key: $NPM_TOKEN
+        on:
+          tags: true
