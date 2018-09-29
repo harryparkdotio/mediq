@@ -19,3 +19,6 @@ import mediq from 'mediq';
 
 mediq().screen.and.min.width(300).px; // --> @media screen and (min-width: 300px)
 ```
+
+## docs
+> see [docs](https://github.com/harryparkdotio/mediq/blob/master/docs.md)
