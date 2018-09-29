@@ -2,10 +2,9 @@ import { MediqAssembler } from './assembler';
 import { MediqChainProperty, Properties } from './chain';
 import { Features, Operators, Prefixes, Types } from './constants';
 import * as Keywords from './keywords';
-import { MediqLength } from './units/length';
-import { MediqResolution } from './units/resolution';
+import * as Units from './units';
 
-export function mediq() {
+export function mediq(): Mediq {
 	return new Mediq();
 }
 
@@ -16,12 +15,12 @@ export type MediqOperators = Record<keyof typeof Operators, Mediq>;
 export type MediqPrefixes = Record<keyof typeof Prefixes, Mediq>;
 
 export interface IMediqFeatures {
-	width(width: number): MediqLength;
-	height(height: number): MediqLength;
+	width(width: number): Units.MediqLength;
+	height(height: number): Units.MediqLength;
 	aspectRatio(a: number, b: number): Mediq;
 	aspectRatio(ratio: string): Mediq;
 	orientation: Keywords.MediqOrientation;
-	resolution(resolution: number): MediqResolution;
+	resolution(resolution: number): Units.MediqResolution;
 	scan: Keywords.MediqScan;
 	grid(grid: 0 | 1): Mediq;
 	update: Keywords.MediqUpdate;
@@ -154,14 +153,14 @@ export class Mediq implements IMediq {
 		return this;
 	}
 
-	public width(width: number): MediqLength {
+	public width(width: number): Units.MediqLength {
 		this.feature(Features.width, width);
-		return new MediqLength(this);
+		return new Units.MediqLength(this);
 	}
 
-	public height(height: number): MediqLength {
+	public height(height: number): Units.MediqLength {
 		this.feature(Features.height, height);
-		return new MediqLength(this);
+		return new Units.MediqLength(this);
 	}
 
 	public aspectRatio(a: number, b: number): this;
@@ -180,9 +179,9 @@ export class Mediq implements IMediq {
 		return new Keywords.MediqOrientation(this);
 	}
 
-	public resolution(resolution: number): MediqResolution {
+	public resolution(resolution: number): Units.MediqResolution {
 		this.feature(Features.resolution, resolution);
-		return new MediqResolution(this);
+		return new Units.MediqResolution(this);
 	}
 
 	public get scan(): Keywords.MediqScan {

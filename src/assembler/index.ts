@@ -12,8 +12,8 @@ const featureGroupProps = [
 	ChainPropertyTypes.value,
 ];
 
-type MediqChainProperties = MediqChainProperty[];
-type MediqChainPropertyGroups = MediqChainProperties[];
+export type MediqChainProperties = MediqChainProperty[];
+export type MediqChainPropertyGroups = MediqChainProperties[];
 
 export class MediqAssembler {
 	constructor(private mediq: Mediq) {}
