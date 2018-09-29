@@ -3029,7 +3029,7 @@ normalize-path@^2.0.1, normalize-path@^2.1.1:
   dependencies:
     remove-trailing-separator "^1.0.1"
 
-np@^3.0.4:
+np@*:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/np/-/np-3.0.4.tgz#cccd1fd55bc1aea5b22b2ab5ee96e8273b9bbdd5"
   integrity sha512-w8g6tgyI4zGzHML5f+UFGFzV1CbZVHlvNN6qXp7zoO4Wen8hho1GmQzPqngxYtPxFTZGuITQnyt4ACV4F0FSHQ==
