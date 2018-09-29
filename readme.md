@@ -12,3 +12,10 @@ $ npm i -S mediq
 # or
 $ yarn add mediq
 ```
+
+## usage
+```ts
+import mediq from 'mediq';
+
+mediq().screen.and.min.width(300).px; // --> @media screen and (min-width: 300px)
+```
