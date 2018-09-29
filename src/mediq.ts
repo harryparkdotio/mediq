@@ -1,3 +1,4 @@
+import { MediqAssembler } from './assembler';
 import { MediqChainProperty, Properties } from './chain';
 import { Features, Operators, Prefixes, Types } from './constants';
 import * as Keywords from './keywords';
@@ -42,7 +43,7 @@ export interface IMediqFeatures {
 }
 
 export interface IMediq extends MediqTypes, MediqOperators, MediqPrefixes, IMediqFeatures {
-
+	exec(): string;
 }
 
 export class Mediq implements IMediq {
@@ -50,6 +51,10 @@ export class Mediq implements IMediq {
 
 	constructor() {
 		this.chain = [];
+	}
+
+	public exec(): string {
+		return new MediqAssembler(this).assemble();
 	}
 
 	private type(type: Types): this {
