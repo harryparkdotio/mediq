@@ -1,3 +1,4 @@
+import { MediqAssembler } from '../../src/assembler';
 import * as Keywords from '../../src/keywords';
 import { mediq, Mediq } from '../../src/mediq';
 import { MediqLength } from '../../src/units/length';
@@ -6,6 +7,24 @@ import { MediqResolution } from '../../src/units/resolution';
 describe('mediq', () => {
 	it('should return a new instance of Mediq', () => {
 		expect(mediq()).toBeInstanceOf(Mediq);
+	});
+});
+
+describe('fns', () => {
+	describe('ex', () => {
+		it('should call MediqAssembler.assemble', () => {
+			const m = mediq();
+			jest.spyOn(MediqAssembler.prototype, 'assemble');
+
+			m.exec();
+
+			expect(MediqAssembler.prototype.assemble).toHaveBeenCalled();
+		});
+
+		it('should return a string', () => {
+			const m = mediq();
+			expect(typeof m.screen.and.min.width(200).px.exec()).toBe('string');
+		});
 	});
 });
 
