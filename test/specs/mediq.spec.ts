@@ -10,7 +10,133 @@ describe('mediq', () => {
 	});
 });
 
-describe('fns', () => {
+describe('prototype functions', () => {
+	describe('.toString', () => {
+		it('should call Mediq.exec', () => {
+			const m = mediq();
+			jest.spyOn(m, 'exec');
+
+			m.toString();
+
+			expect(m.exec).toHaveBeenCalled();
+		});
+
+		it('should return assembled media query', () => {
+			const m = mediq();
+			const query =  m.screen.and.min.width(200).px;
+			expect(query.toString()).toBe('screen and (min-width: 200px)');
+		});
+	});
+
+	describe('.valueOf', () => {
+		it('should call Mediq.exec', () => {
+			const m = mediq();
+			jest.spyOn(m, 'exec');
+
+			m.valueOf();
+
+			expect(m.exec).toHaveBeenCalled();
+		});
+
+		it('should return assembled media query', () => {
+			const m = mediq();
+			const query =  m.screen.and.min.width(200).px;
+			expect(query.valueOf()).toBe('screen and (min-width: 200px)');
+		});
+	});
+
+	describe('.toJSON', () => {
+		it('should call Mediq.exec', () => {
+			const m = mediq();
+			jest.spyOn(m, 'exec');
+
+			m.toJSON();
+
+			expect(m.exec).toHaveBeenCalled();
+		});
+
+		it('should return assembled media query', () => {
+			const m = mediq();
+			const query =  m.screen.and.min.width(200).px;
+			expect(query.toJSON()).toBe('screen and (min-width: 200px)');
+		});
+	});
+
+	describe('.length', () => {
+		it('should call Mediq.exec', () => {
+			const m = mediq();
+			jest.spyOn(m, 'exec');
+
+			// tslint:disable-next-line:no-unused-expression
+			m.length;
+
+			expect(m.exec).toHaveBeenCalled();
+		});
+
+		it('should return assembled media query', () => {
+			const m = mediq();
+			const query =  m.screen.and.min.width(200).px;
+			expect(query.length).toBe(query.exec().length);
+		});
+	});
+});
+
+describe('Symbol functions', () => {
+	describe('[Symbol.toPrimitive]', () => {
+		it('should return assembled media query (query + number)', () => {
+			const query = mediq().screen.and.min.width(200).px;
+			// @ts-ignore
+			expect(query + 1).toBe(`${query.toString()}1`);
+		});
+
+		it('should return assembled media query (number + query)', () => {
+			const query = mediq().screen.and.min.width(200).px;
+			// @ts-ignore
+			expect(1 + query).toBe(`1${query.toString()}`);
+		});
+
+		it('should return NaN (Number(query))', () => {
+			const query = mediq().screen.and.min.width(200).px;
+			// @ts-ignore
+			expect(Number(query)).toBe(NaN);
+		});
+
+		it('should return assembled media query (query + string)', () => {
+			const query = mediq().screen.and.min.width(200).px;
+			expect(query + '').toBe(query.exec());
+		});
+
+		it('should return assembled media query (string + query)', () => {
+			const query = mediq().screen.and.min.width(200).px;
+			expect('' + query).toBe(query.exec());
+		});
+
+		it('should return assembled media query (String(query))', () => {
+			const query = mediq().screen.and.min.width(200).px;
+			// @ts-ignore
+			expect(String(query)).toBe(query.exec());
+		});
+
+		it('should call Mediq.exec', () => {
+			const m = mediq();
+			jest.spyOn(m, 'exec');
+
+			// tslint:disable-next-line:no-unused-expression
+			'' + m;
+
+			expect(m.exec).toHaveBeenCalled();
+		});
+	});
+
+	describe('[Symbol.toStringTag]', () => {
+		it('should return [object Mediq]', () => {
+			const m = mediq();
+			expect(Object.prototype.toString.call(m)).toEqual('[object Mediq]');
+		});
+	});
+});
+
+describe('functions', () => {
 	describe('ex', () => {
 		it('should call MediqAssembler.assemble', () => {
 			const m = mediq();
@@ -19,11 +145,6 @@ describe('fns', () => {
 			m.exec();
 
 			expect(MediqAssembler.prototype.assemble).toHaveBeenCalled();
-		});
-
-		it('should return a string', () => {
-			const m = mediq();
-			expect(typeof m.screen.and.min.width(200).px.exec()).toBe('string');
 		});
 	});
 });

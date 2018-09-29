@@ -44,17 +44,51 @@ export interface IMediqFeatures {
 
 export interface IMediq extends MediqTypes, MediqOperators, MediqPrefixes, IMediqFeatures {
 	exec(): string;
+	toString(): string;
+	valueOf(): string;
+	toJSON(): string;
+	length: number;
 }
 
 export class Mediq implements IMediq {
+	private assembler: MediqAssembler;
 	public chain: MediqChainProperty[];
 
 	constructor() {
+		this.assembler = new MediqAssembler(this);
 		this.chain = [];
 	}
 
 	public exec(): string {
-		return new MediqAssembler(this).assemble();
+		return this.assembler.assemble();
+	}
+
+	public toString(): string {
+		return this.exec();
+	}
+
+	public valueOf(): string {
+		return this.exec();
+	}
+
+	public toJSON(): string {
+		return this.exec();
+	}
+
+	public get length(): number {
+		return this.exec().length;
+	}
+
+	public [Symbol.toPrimitive](hint: 'string' | 'number' | 'default') {
+		if (hint === 'number') {
+			return NaN;
+		}
+
+		return this.exec();
+	}
+
+	public get [Symbol.toStringTag]() {
+		return 'Mediq';
 	}
 
 	private type(type: Types): this {
