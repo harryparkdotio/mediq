@@ -1,6 +1,6 @@
 {
 	"name": "mediq",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "expressive media query builder",
 	"main": "dist/mediq.js",
 	"repository": "git@github.com:harryparkdotio/mediq.git",
