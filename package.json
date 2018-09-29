@@ -12,6 +12,19 @@
 	"files": [
 		"dist"
 	],
+	"keywords": [
+		"typescript",
+		"types",
+		"css",
+		"media",
+		"query",
+		"media query",
+		"media queries",
+		"react",
+		"styled-components",
+		"breakpoint",
+		"responsive"
+	],
 	"scripts": {
 		"build": "tsc -p tsconfig.build.json",
 		"cover": "codecov",
