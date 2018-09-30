@@ -5,6 +5,7 @@ import * as Units from './units';
 export {
 	mediq as default,
 	mediq,
+	Mediq,
 	MediqOperators,
 	MediqPrefixes,
 	MediqTypes,
