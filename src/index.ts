@@ -2,29 +2,10 @@ import * as Constants from './constants';
 import * as Keywords from './keywords';
 import * as Units from './units';
 
-export {
-	mediq as default,
-	mediq,
-	Mediq,
-	MediqOperators,
-	MediqPrefixes,
-	MediqTypes,
-} from './mediq';
+export { mediq as default, mediq, Mediq, MediqOperators, MediqPrefixes, MediqTypes } from './mediq';
 
-export {
-	MediqAssembler,
-	MediqChainProperties,
-	MediqChainPropertyGroups,
-} from './assembler';
+export { MediqAssembler, MediqChainProperties, MediqChainPropertyGroups } from './assembler';
 
-export {
-	ChainPropertyTypes,
-	MediqChainProperty,
-	Properties,
-} from './chain';
+export { ChainPropertyTypes, MediqChainProperty, Properties } from './chain';
 
-export {
-	Constants,
-	Keywords,
-	Units,
-};
+export { Constants, Keywords, Units };

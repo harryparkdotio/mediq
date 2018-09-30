@@ -1,16 +1,12 @@
 {
-	"extends": ["tslint:recommended"],
+	"extends": ["tslint:recommended", "tslint-config-prettier"],
 	"defaultSeverity": "error",
 	"rules": {
-		"arrow-parens": [true, "ban-single-arg-parens"],
-		"indent": [true, "tabs", 4],
 		"max-line-length": [false],
 		"member-access": false,
 		"member-ordering": false,
 		"object-literal-sort-keys": false,
 		"only-arrow-functions": false,
-		"quotemark": [true, "single"],
-		"trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
 		"variable-name": [true, "check-format", "allow-leading-underscore", "allow-pascal-case"]
 	}
 }

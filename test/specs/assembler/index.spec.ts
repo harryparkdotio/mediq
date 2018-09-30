@@ -49,106 +49,22 @@ const assembleCases = [
 
 // #region group cases
 const groupCases = [
-	[
-		'single feature + keyword',
-		[
-			features[0],
-			keywords[0],
-		],
-		[
-			[
-				features[0],
-				keywords[0],
-			],
-		],
-	],
-	[
-		'single feature + value + units',
-		[
-			features[0],
-			values[0],
-			units[0],
-		],
-		[
-			[
-				features[0],
-				values[0],
-				units[0],
-			],
-		],
-	],
+	['single feature + keyword', [features[0], keywords[0]], [[features[0], keywords[0]]]],
+	['single feature + value + units', [features[0], values[0], units[0]], [[features[0], values[0], units[0]]]],
 	[
 		'single prefix + feature + value + units',
-		[
-			prefixes[0],
-			features[0],
-			values[0],
-			units[0],
-		],
-		[
-			[
-				prefixes[0],
-				features[0],
-				values[0],
-				units[0],
-			],
-		],
+		[prefixes[0], features[0], values[0], units[0]],
+		[[prefixes[0], features[0], values[0], units[0]]],
 	],
 	[
 		'3x feature + keyword',
-		[
-			features[0],
-			keywords[0],
-			features[0],
-			keywords[0],
-			features[0],
-			keywords[0],
-		],
-		[
-			[
-				features[0],
-				keywords[0],
-			],
-			[
-				features[0],
-				keywords[0],
-			],
-			[
-				features[0],
-				keywords[0],
-			],
-		],
+		[features[0], keywords[0], features[0], keywords[0], features[0], keywords[0]],
+		[[features[0], keywords[0]], [features[0], keywords[0]], [features[0], keywords[0]]],
 	],
 	[
 		'3x feature + value + units',
-		[
-			features[0],
-			values[0],
-			units[0],
-			features[0],
-			values[0],
-			units[0],
-			features[0],
-			values[0],
-			units[0],
-		],
-		[
-			[
-				features[0],
-				values[0],
-				units[0],
-			],
-			[
-				features[0],
-				values[0],
-				units[0],
-			],
-			[
-				features[0],
-				values[0],
-				units[0],
-			],
-		],
+		[features[0], values[0], units[0], features[0], values[0], units[0], features[0], values[0], units[0]],
+		[[features[0], values[0], units[0]], [features[0], values[0], units[0]], [features[0], values[0], units[0]]],
 	],
 	[
 		'3x prefix + feature + value + units',
@@ -167,125 +83,34 @@ const groupCases = [
 			units[0],
 		],
 		[
-			[
-				prefixes[0],
-				features[0],
-				values[0],
-				units[0],
-			],
-			[
-				prefixes[0],
-				features[0],
-				values[0],
-				units[0],
-			],
-			[
-				prefixes[0],
-				features[0],
-				values[0],
-				units[0],
-			],
+			[prefixes[0], features[0], values[0], units[0]],
+			[prefixes[0], features[0], values[0], units[0]],
+			[prefixes[0], features[0], values[0], units[0]],
 		],
 	],
 	[
 		'3x mixed',
+		[prefixes[0], features[0], values[0], units[0], features[0], values[0], units[0], features[0], keywords[0]],
 		[
-			prefixes[0],
-			features[0],
-			values[0],
-			units[0],
-			features[0],
-			values[0],
-			units[0],
-			features[0],
-			keywords[0],
-		],
-		[
-			[
-				prefixes[0],
-				features[0],
-				values[0],
-				units[0],
-			],
-			[
-				features[0],
-				values[0],
-				units[0],
-			],
-			[
-				features[0],
-				keywords[0],
-			],
+			[prefixes[0], features[0], values[0], units[0]],
+			[features[0], values[0], units[0]],
+			[features[0], keywords[0]],
 		],
 	],
 	[
 		'type + feature + value + unit',
-		[
-			types[0],
-			features[0],
-			values[0],
-			units[0],
-		],
-		[
-			[
-				types[0],
-			],
-			[
-				features[0],
-				values[0],
-				units[0],
-			],
-		],
+		[types[0], features[0], values[0], units[0]],
+		[[types[0]], [features[0], values[0], units[0]]],
 	],
 	[
 		'type + feature + value + unit + type',
-		[
-			types[0],
-			features[0],
-			values[0],
-			units[0],
-			types[0],
-		],
-		[
-			[
-				types[0],
-			],
-			[
-				features[0],
-				values[0],
-				units[0],
-			],
-			[
-				types[0],
-			],
-		],
+		[types[0], features[0], values[0], units[0], types[0]],
+		[[types[0]], [features[0], values[0], units[0]], [types[0]]],
 	],
 	[
 		'type + operator + feature + value + unit + type',
-		[
-			types[0],
-			operators[0],
-			features[0],
-			values[0],
-			units[0],
-			types[0],
-		],
-		[
-			[
-				types[0],
-			],
-			[
-				operators[0],
-			],
-			[
-				features[0],
-				values[0],
-				units[0],
-			],
-			[
-				types[0],
-			],
-		],
+		[types[0], operators[0], features[0], values[0], units[0], types[0]],
+		[[types[0]], [operators[0]], [features[0], values[0], units[0]], [types[0]]],
 	],
 ];
 // #endregion
@@ -337,12 +162,8 @@ describe('MediqAssembler', () => {
 					new Properties.MediqChainFeature(Features.orientation),
 					new Properties.MediqChainKeyword(Keywords.landscape),
 				],
-				[
-					new Properties.MediqChainType(Types.all),
-				],
-				[
-					new Properties.MediqChainOperator(Operators.and),
-				],
+				[new Properties.MediqChainType(Types.all)],
+				[new Properties.MediqChainOperator(Operators.and)],
 			];
 
 			const spyAssemProp = jest.spyOn(ma, 'assembleProp');
@@ -363,9 +184,7 @@ describe('MediqAssembler', () => {
 			const m = new Mediq();
 			const ma = new MediqAssembler(m);
 
-			const propGroup = [
-				new Properties.MediqChainType(Types.all),
-			];
+			const propGroup = [new Properties.MediqChainType(Types.all)];
 
 			expect(ma.assembleProp(propGroup)).toEqual('all');
 		});
@@ -445,9 +264,7 @@ describe('MediqAssembler', () => {
 			const m = new Mediq();
 			const ma = new MediqAssembler(m);
 
-			const featureGroup = [
-				new Properties.MediqChainType(Types.print),
-			];
+			const featureGroup = [new Properties.MediqChainType(Types.print)];
 
 			expect(ma.assembleProp(featureGroup)).toEqual('print');
 		});
