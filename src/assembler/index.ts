@@ -63,23 +63,27 @@ export class MediqAssembler {
 			const assembledFeature = this.assembleFeature(propGroup);
 			return `(${assembledFeature})`;
 		} else {
-			return propGroup.reduce((group: string[], prop) => {
-				group.push(`${prop.value}`);
-				return group;
-			}, []).join('');
+			return propGroup
+				.reduce((group: string[], prop) => {
+					group.push(`${prop.value}`);
+					return group;
+				}, [])
+				.join('');
 		}
 	}
 
 	public assembleFeature(featureGroup: MediqChainProperties): string {
-		return featureGroup.reduce((group: string[], prop) => {
-			if (prop.type === ChainPropertyTypes.prefix) {
-				group.push(`${prop.value}-`);
-			} else if (prop.type === ChainPropertyTypes.feature) {
-				group.push(`${prop.value}: `);
-			} else {
-				group.push(`${prop.value}`);
-			}
-			return group;
-		}, []).join('');
+		return featureGroup
+			.reduce((group: string[], prop) => {
+				if (prop.type === ChainPropertyTypes.prefix) {
+					group.push(`${prop.value}-`);
+				} else if (prop.type === ChainPropertyTypes.feature) {
+					group.push(`${prop.value}: `);
+				} else {
+					group.push(`${prop.value}`);
+				}
+				return group;
+			}, [])
+			.join('');
 	}
 }
