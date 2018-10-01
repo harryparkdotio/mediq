@@ -39,6 +39,7 @@ jobs:
     - stage: deploy
       node_js: '10'
       script: yarn build
+      after_script: cd dist
       deploy:
         skip_cleanup: true
         provider: npm

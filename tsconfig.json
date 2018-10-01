@@ -10,7 +10,6 @@
 		"noUnusedLocals": true,
 		"removeComments": true,
 		"preserveConstEnums": true,
-		"sourceMap": true,
 		"noEmit": true,
 		"skipLibCheck": true,
 		"lib": ["es2018"],
