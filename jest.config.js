@@ -6,6 +6,7 @@ module.exports = {
 	moduleFileExtensions: [
 		'ts', 'js', 'json', 'node'
 	],
+	modulePathIgnorePatterns: ['<rootDir>/dist'],
 	coverageReporters: ['text-summary', 'lcov'],
 	collectCoverage: true,
 	collectCoverageFrom: [

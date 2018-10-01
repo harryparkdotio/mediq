@@ -28,6 +28,7 @@
 	],
 	"scripts": {
 		"build": "tsc -p tsconfig.build.json",
+		"postbuild": "cp package.json dist/ && cp readme.md dist/ && cp license dist/",
 		"cover": "codecov",
 		"pretty": "prettier --write '{src,test}/**/*.ts'",
 		"test": "yarn test:prettier && yarn test:lint && yarn test:typecheck && yarn test:unit",
