@@ -10,9 +10,6 @@
 	"engines": {
 		"node": ">= 8"
 	},
-	"files": [
-		"dist"
-	],
 	"keywords": [
 		"typescript",
 		"types",
