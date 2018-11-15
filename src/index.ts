@@ -4,6 +4,8 @@ import * as Units from './units';
 
 export { mediq as default, mediq, Mediq, MediqOperators, MediqPrefixes, MediqTypes } from './mediq';
 
+export { styledMediq, StyledMediq } from './styled';
+
 export { MediqAssembler, MediqChainProperties, MediqChainPropertyGroups } from './assembler';
 
 export { ChainPropertyTypes, MediqChainProperty, Properties } from './chain';
