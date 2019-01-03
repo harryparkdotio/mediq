@@ -1,2 +1,2 @@
-export { mediq } from './mediq';
-export { mediq as default } from './mediq';
+import { IMediq, mediq } from './mediq';
+export { mediq, mediq as default, IMediq };
