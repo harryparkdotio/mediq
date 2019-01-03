@@ -6,48 +6,48 @@
 
 #### types
 
--   [all](#all)
--   [print](#print)
--   [screen](#screen)
--   [speech](#speech)
+- [all](#all)
+- [print](#print)
+- [screen](#screen)
+- [speech](#speech)
 
 #### operators
 
--   [and](#and)
--   [not](#not)
--   [only](#only)
--   [or](#or)
+- [and](#and)
+- [not](#not)
+- [only](#only)
+- [or](#or)
 
 #### prefixes
 
--   [min-](#min-)
--   [max-](#max-)
+- [min-](#min-)
+- [max-](#max-)
 
 #### features
 
--   [width](#width)
--   [height](#height)
--   [aspect-ratio](#aspect-ratio)
--   [orientation](#orientation)
--   [resolution](#resolution)
--   [scan](#scan)
--   [grid](#grid)
--   [update](#update)
--   [overflow-block](#overflow-block)
--   [overflow-inline](#overflow-inline)
--   [color](#color)
--   [color-gamut](#color-gamut)
--   [color-index](#color-index)
--   [display-mode](#display-mode)
--   [monochrome](#monochrome)
--   [inverted-colors](#inverted-colors)
--   [pointer](#pointer)
--   [any-pointer](#any-pointer)
--   [hover](#hover)
--   [any-hover](#any-hover)
--   [light-level](#light-level)
--   [prefers-reduced-motion](#prefers-reduced-motion)
--   [scripting](#scripting)
+- [width](#width)
+- [height](#height)
+- [aspect-ratio](#aspect-ratio)
+- [orientation](#orientation)
+- [resolution](#resolution)
+- [scan](#scan)
+- [grid](#grid)
+- [update](#update)
+- [overflow-block](#overflow-block)
+- [overflow-inline](#overflow-inline)
+- [color](#color)
+- [color-gamut](#color-gamut)
+- [color-index](#color-index)
+- [display-mode](#display-mode)
+- [monochrome](#monochrome)
+- [inverted-colors](#inverted-colors)
+- [pointer](#pointer)
+- [any-pointer](#any-pointer)
+- [hover](#hover)
+- [any-hover](#any-hover)
+- [light-level](#light-level)
+- [prefers-reduced-motion](#prefers-reduced-motion)
+- [scripting](#scripting)
 
 # reference
 
@@ -117,8 +117,8 @@ mediq().and; // @media and
 
 ```ts
 mediq()
-	.max.height(50)
-	.vh.and.min.width(100).px; // @media (min-height: 50vh) and (min-width: 100px)
+  .max.height(50)
+  .vh.and.min.width(100).px; // @media (min-height: 50vh) and (min-width: 100px)
 ```
 
 ### not
@@ -145,8 +145,8 @@ mediq().or; // @media,
 
 ```ts
 mediq()
-	.max.height(50)
-	.vh.or.min.width(100).px; // @media (min-height: 50vh), (min-width: 100px)
+  .max.height(50)
+  .vh.or.min.width(100).px; // @media (min-height: 50vh), (min-width: 100px)
 ```
 
 ## prefixes
@@ -183,16 +183,16 @@ mediq().width(300).px; // @media (width: 300px)
 
 #### units
 
--   `em`
--   `rem`
--   `vh`
--   `vw`
--   `px`
--   `cm`
--   `mm`
--   `in`
--   `pc`
--   `pt`
+- `em`
+- `rem`
+- `vh`
+- `vw`
+- `px`
+- `cm`
+- `mm`
+- `in`
+- `pc`
+- `pt`
 
 ### height
 
@@ -204,16 +204,16 @@ mediq().height(20).rem; // @media (height: 20rem)
 
 #### units
 
--   `em`
--   `rem`
--   `vh`
--   `vw`
--   `px`
--   `cm`
--   `mm`
--   `in`
--   `pc`
--   `pt`
+- `em`
+- `rem`
+- `vh`
+- `vw`
+- `px`
+- `cm`
+- `mm`
+- `in`
+- `pc`
+- `pt`
 
 ### aspect-ratio
 
