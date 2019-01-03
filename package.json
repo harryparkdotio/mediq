@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "expressive media query builder",
   "main": "index.js",
+  "module": "index.es.js",
   "types": "index.d.ts",
   "repository": "git@github.com:harryparkdotio/mediq.git",
   "author": "Harry Park <harry@harrypark.io>",
@@ -24,7 +25,7 @@
     "responsive"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "rollup -c",
     "postbuild": "cp package.json dist/ && cp readme.md dist/ && cp license dist/",
     "prettier": "prettier --write '{src,test}/**/*.ts' '*.{js,json,md,yml}'",
     "cover": "codecov",
@@ -43,7 +44,11 @@
     "jest": "^23.6.0",
     "np": "*",
     "prettier": "^1.14.3",
+    "rollup": "^1.0.1",
+    "rollup-plugin-babel-minify": "^6.2.0",
+    "rollup-plugin-typescript2": "^0.18.1",
     "ts-jest": "^23.10.1",
+    "tslib": "^1.9.3",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "^3.0.3"
