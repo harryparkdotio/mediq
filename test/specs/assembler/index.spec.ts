@@ -1,6 +1,5 @@
 import { MediqAssembler } from '../../../src/assembler';
 import { Properties } from '../../../src/chain';
-import { Features, Keywords, Operators, Prefixes, Types, Units } from '../../../src/constants';
 import { Mediq } from '../../../src/mediq';
 
 import * as generate from '../../utils/generate-properties';
@@ -18,30 +17,30 @@ const assembleCases = [
 	[
 		'screen and (min-width: 200px)',
 		[
-			new Properties.MediqChainType(Types.screen),
-			new Properties.MediqChainOperator(Operators.and),
-			new Properties.MediqChainPrefix(Prefixes.min),
-			new Properties.MediqChainFeature(Features.width),
+			new Properties.MediqChainType('screen'),
+			new Properties.MediqChainOperator('and'),
+			new Properties.MediqChainPrefix('min'),
+			new Properties.MediqChainFeature('width'),
 			new Properties.MediqChainValue(200),
-			new Properties.MediqChainUnit(Units.px),
+			new Properties.MediqChainUnit('px'),
 		],
 	],
 	[
 		'print and (orientation: landscape)',
 		[
-			new Properties.MediqChainType(Types.print),
-			new Properties.MediqChainOperator(Operators.and),
-			new Properties.MediqChainFeature(Features.orientation),
-			new Properties.MediqChainKeyword(Keywords.landscape),
+			new Properties.MediqChainType('print'),
+			new Properties.MediqChainOperator('and'),
+			new Properties.MediqChainFeature('orientation'),
+			new Properties.MediqChainKeyword('landscape'),
 		],
 	],
 	[
 		'print, (orientation: landscape)',
 		[
-			new Properties.MediqChainType(Types.print),
-			new Properties.MediqChainOperator(Operators.or),
-			new Properties.MediqChainFeature(Features.orientation),
-			new Properties.MediqChainKeyword(Keywords.landscape),
+			new Properties.MediqChainType('print'),
+			new Properties.MediqChainOperator(','),
+			new Properties.MediqChainFeature('orientation'),
+			new Properties.MediqChainKeyword('landscape'),
 		],
 	],
 ];
@@ -158,12 +157,9 @@ describe('MediqAssembler', () => {
 			const ma = new MediqAssembler(m);
 
 			const propGroups = [
-				[
-					new Properties.MediqChainFeature(Features.orientation),
-					new Properties.MediqChainKeyword(Keywords.landscape),
-				],
-				[new Properties.MediqChainType(Types.all)],
-				[new Properties.MediqChainOperator(Operators.and)],
+				[new Properties.MediqChainFeature('orientation'), new Properties.MediqChainKeyword('landscape')],
+				[new Properties.MediqChainType('all')],
+				[new Properties.MediqChainOperator('and')],
 			];
 
 			const spyAssemProp = jest.spyOn(ma, 'assembleProp');
@@ -184,7 +180,7 @@ describe('MediqAssembler', () => {
 			const m = new Mediq();
 			const ma = new MediqAssembler(m);
 
-			const propGroup = [new Properties.MediqChainType(Types.all)];
+			const propGroup = [new Properties.MediqChainType('all')];
 
 			expect(ma.assembleProp(propGroup)).toEqual('all');
 		});
@@ -194,8 +190,8 @@ describe('MediqAssembler', () => {
 			const ma = new MediqAssembler(m);
 
 			const featureGroup = [
-				new Properties.MediqChainFeature(Features.height),
-				new Properties.MediqChainKeyword(Keywords.browser),
+				new Properties.MediqChainFeature('height'),
+				new Properties.MediqChainKeyword('browser'),
 			];
 
 			const spy = jest.spyOn(ma, 'assembleFeature');
@@ -212,9 +208,9 @@ describe('MediqAssembler', () => {
 			const ma = new MediqAssembler(m);
 
 			const featureGroup = [
-				new Properties.MediqChainFeature(Features.height),
+				new Properties.MediqChainFeature('height'),
 				new Properties.MediqChainValue(200),
-				new Properties.MediqChainUnit(Units.px),
+				new Properties.MediqChainUnit('px'),
 			];
 
 			const spy = jest.spyOn(ma, 'assembleFeature');
@@ -231,10 +227,10 @@ describe('MediqAssembler', () => {
 			const ma = new MediqAssembler(m);
 
 			const featureGroup = [
-				new Properties.MediqChainPrefix(Prefixes.min),
-				new Properties.MediqChainFeature(Features.height),
+				new Properties.MediqChainPrefix('min'),
+				new Properties.MediqChainFeature('height'),
 				new Properties.MediqChainValue(200),
-				new Properties.MediqChainUnit(Units.px),
+				new Properties.MediqChainUnit('px'),
 			];
 
 			const spy = jest.spyOn(ma, 'assembleFeature');
@@ -251,10 +247,10 @@ describe('MediqAssembler', () => {
 			const ma = new MediqAssembler(m);
 
 			const featureGroup = [
-				new Properties.MediqChainPrefix(Prefixes.min),
-				new Properties.MediqChainFeature(Features.height),
+				new Properties.MediqChainPrefix('min'),
+				new Properties.MediqChainFeature('height'),
 				new Properties.MediqChainValue(200),
-				new Properties.MediqChainUnit(Units.px),
+				new Properties.MediqChainUnit('px'),
 			];
 
 			expect(ma.assembleProp(featureGroup)).toEqual('(min-height: 200px)');
@@ -264,7 +260,7 @@ describe('MediqAssembler', () => {
 			const m = new Mediq();
 			const ma = new MediqAssembler(m);
 
-			const featureGroup = [new Properties.MediqChainType(Types.print)];
+			const featureGroup = [new Properties.MediqChainType('print')];
 
 			expect(ma.assembleProp(featureGroup)).toEqual('print');
 		});
@@ -276,8 +272,8 @@ describe('MediqAssembler', () => {
 			const ma = new MediqAssembler(m);
 
 			const group = [
-				new Properties.MediqChainFeature(Features.orientation),
-				new Properties.MediqChainKeyword(Keywords.landscape),
+				new Properties.MediqChainFeature('orientation'),
+				new Properties.MediqChainKeyword('landscape'),
 			];
 
 			expect(ma.assembleFeature(group)).toEqual('orientation: landscape');
@@ -288,9 +284,9 @@ describe('MediqAssembler', () => {
 			const ma = new MediqAssembler(m);
 
 			const group = [
-				new Properties.MediqChainFeature(Features.height),
+				new Properties.MediqChainFeature('height'),
 				new Properties.MediqChainValue(200),
-				new Properties.MediqChainUnit(Units.px),
+				new Properties.MediqChainUnit('px'),
 			];
 
 			expect(ma.assembleFeature(group)).toEqual('height: 200px');
@@ -301,10 +297,10 @@ describe('MediqAssembler', () => {
 			const ma = new MediqAssembler(m);
 
 			const group = [
-				new Properties.MediqChainPrefix(Prefixes.min),
-				new Properties.MediqChainFeature(Features.width),
+				new Properties.MediqChainPrefix('min'),
+				new Properties.MediqChainFeature('width'),
 				new Properties.MediqChainValue(20),
-				new Properties.MediqChainUnit(Units.em),
+				new Properties.MediqChainUnit('em'),
 			];
 
 			expect(ma.assembleFeature(group)).toEqual('min-width: 20em');

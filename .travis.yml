@@ -19,15 +19,14 @@ cache:
     - 'node_modules'
 
 script:
+  - yarn lint
   - yarn build
   - yarn test
 
 after_success: yarn cover
 
 notifications:
-  email:
-    on_success: never
-    on_failure: never
+  email: never
 
 stages:
   - test
@@ -40,6 +39,7 @@ jobs:
       node_js: '10'
       script:
         - yarn build
+      before_deploy:
         - cd dist
       deploy:
         skip_cleanup: true

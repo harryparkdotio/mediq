@@ -1,37 +1,37 @@
 import { Properties } from '../../src/chain';
-import { Features, Keywords, Operators, Prefixes, Types, Units } from '../../src/constants';
+import { features, Keywords, operators, prefixes, types, Units } from '../../src/map';
 
 function randomPick<T>(arr: T[]): T {
 	return arr[Math.floor(Math.random() * arr.length)];
 }
 
 export function feature(): Properties.MediqChainFeature {
-	const f = randomPick(Object.values(Features));
+	const f = randomPick(Object.keys(features));
 	return new Properties.MediqChainFeature(f);
 }
 
 export function keyword(): Properties.MediqChainKeyword {
-	const k = randomPick(Object.values(Keywords));
+	const k = randomPick(Object.keys(Keywords.DisplayMode));
 	return new Properties.MediqChainKeyword(k);
 }
 
 export function operator(): Properties.MediqChainOperator {
-	const o = randomPick(Object.values(Operators));
+	const o = randomPick(operators);
 	return new Properties.MediqChainOperator(o);
 }
 
 export function prefix(): Properties.MediqChainPrefix {
-	const p = randomPick(Object.values(Prefixes));
+	const p = randomPick(prefixes);
 	return new Properties.MediqChainPrefix(p);
 }
 
 export function type(): Properties.MediqChainOperator {
-	const t = randomPick(Object.values(Types));
+	const t = randomPick(types);
 	return new Properties.MediqChainOperator(t);
 }
 
 export function unit(): Properties.MediqChainUnit {
-	const u = randomPick(Object.values(Units));
+	const u = randomPick(Object.keys(Units.Length));
 	return new Properties.MediqChainUnit(u);
 }
 

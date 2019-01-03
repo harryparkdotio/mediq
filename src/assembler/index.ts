@@ -1,6 +1,5 @@
 import { MediqChainProperty } from '../chain';
 import { ChainPropertyTypes } from '../chain/property-types';
-import { Mediq } from '../mediq';
 
 const featureGroupStartProps = [ChainPropertyTypes.prefix, ChainPropertyTypes.feature];
 const featureGroupEndProps = [ChainPropertyTypes.keyword, ChainPropertyTypes.unit];
@@ -16,7 +15,7 @@ export type MediqChainProperties = MediqChainProperty[];
 export type MediqChainPropertyGroups = MediqChainProperties[];
 
 export class MediqAssembler {
-	constructor(private mediq: Mediq) {}
+	constructor(private mediq: any) {}
 
 	public assemble(): string {
 		const chain = this.mediq.chain;

@@ -1,55 +1,81 @@
+import { paramCase } from 'change-case';
 import { MediqAssembler } from './assembler';
 import { MediqChainProperty, Properties } from './chain';
-import { Features, Operators, Prefixes, Types } from './constants';
-import * as Keywords from './keywords';
-import * as Units from './units';
+import { features, Keywords, operatorMap, operators, prefixes, types, Units } from './map';
 
-export function mediq(): Mediq {
-	return new Mediq();
+// tslint:disable-next-line:no-namespace
+export namespace Types {
+	export type Length<T> = { [U in keyof typeof Units.Length]: T };
+	export type Resolution<T> = { [U in keyof typeof Units.Resolution]: T };
+	export type Orientation<T> = { [K in keyof typeof Keywords.Orientation]: T };
+	export type Scan<T> = { [K in keyof typeof Keywords.Scan]: T };
+	export type Update<T> = { [K in keyof typeof Keywords.Update]: T };
+	export type ColorGamut<T> = { [K in keyof typeof Keywords.ColorGamut]: T };
+	export type OverflowBlock<T> = { [K in keyof typeof Keywords.OverflowBlock]: T };
+	export type OverflowInline<T> = { [K in keyof typeof Keywords.OverflowInline]: T };
+	export type DisplayMode<T> = { [K in keyof typeof Keywords.DisplayMode]: T };
+	export type Pointer<T> = { [K in keyof typeof Keywords.Pointer]: T };
+	export type InvertedColors<T> = { [K in keyof typeof Keywords.InvertedColors]: T };
+	export type Hover<T> = { [K in keyof typeof Keywords.Hover]: T };
+	export type LightLevel<T> = { [K in keyof typeof Keywords.LightLevel]: T };
+	export type PrefersReducedMotion<T> = { [K in keyof typeof Keywords.PrefersReducedMotion]: T };
+	export type Scripting<T> = { [K in keyof typeof Keywords.Scripting]: T };
 }
 
-export type MediqTypes = Record<keyof typeof Types, Mediq>;
+export interface IMediq {
+	chain: MediqChainProperty[];
 
-export type MediqOperators = Record<keyof typeof Operators, Mediq>;
-
-export type MediqPrefixes = Record<keyof typeof Prefixes, Mediq>;
-
-export interface IMediqFeatures {
-	width(width: number): Units.MediqLength;
-	height(height: number): Units.MediqLength;
-	aspectRatio(a: number, b: number): Mediq;
-	aspectRatio(ratio: string): Mediq;
-	orientation: Keywords.MediqOrientation;
-	resolution(resolution: number): Units.MediqResolution;
-	scan: Keywords.MediqScan;
-	grid(grid: 0 | 1): Mediq;
-	update: Keywords.MediqUpdate;
-	overflowBlock: Keywords.MediqOverflowBlock;
-	overflowInline: Keywords.MediqOverflowInline;
-	color(bits: number): Mediq;
-	colorGamut: Keywords.MediqColorGamut;
-	colorIndex(colorIndex: number): Mediq;
-	displayMode: Keywords.MediqDisplayMode;
-	monochrome(monochrome: 0 | 1): Mediq;
-	invertedColors: Keywords.MediqInvertedColors;
-	anyPointer: Keywords.MediqPointer;
-	pointer: Keywords.MediqPointer;
-	anyHover: Keywords.MediqHover;
-	hover: Keywords.MediqHover;
-	lightLevel: Keywords.MediqLightLevel;
-	prefersReducedMotion: Keywords.MediqPrefersReducedMotion;
-	scripting: Keywords.MediqScripting;
-}
-
-export interface IMediq extends MediqTypes, MediqOperators, MediqPrefixes, IMediqFeatures {
 	exec(): string;
 	toString(): string;
 	valueOf(): string;
 	toJSON(): string;
 	length: number;
+
+	all: this;
+	print: this;
+	screen: this;
+	speech: this;
+
+	and: this;
+	not: this;
+	only: this;
+	or: this;
+
+	min: this;
+	max: this;
+
+	width(width: number): Types.Length<this>;
+	height(height: number): Types.Length<this>;
+	aspectRatio(a: number, b: number): this;
+	aspectRatio(ratio: string): this;
+	orientation: Types.Orientation<this>;
+	resolution(resolution: number): Types.Resolution<this>;
+	scan: Types.Scan<this>;
+	grid(grid: 0 | 1): this;
+	update: Types.Update<this>;
+	overflowBlock: Types.OverflowBlock<this>;
+	overflowInline: Types.OverflowInline<this>;
+	color(bits: number): this;
+	colorGamut: Types.ColorGamut<this>;
+	colorIndex(colorIndex: number): this;
+	displayMode: Types.DisplayMode<this>;
+	monochrome(monochrome: 0 | 1): this;
+	invertedColors: Types.InvertedColors<this>;
+	anyPointer: Types.Pointer<this>;
+	pointer: Types.Pointer<this>;
+	anyHover: Types.Hover<this>;
+	hover: Types.Hover<this>;
+	lightLevel: Types.LightLevel<this>;
+	prefersReducedMotion: Types.PrefersReducedMotion<this>;
+	scripting: Types.Scripting<this>;
 }
 
-export class Mediq implements IMediq {
+export function mediq(): IMediq {
+	// @ts-ignore
+	return new Mediq();
+}
+
+export class Mediq {
 	private assembler: MediqAssembler;
 	public chain: MediqChainProperty[];
 
@@ -58,7 +84,7 @@ export class Mediq implements IMediq {
 		this.chain = [];
 	}
 
-	public exec(): string {
+	private exec(): string {
 		return `@media ${this.assembler.assemble()}`;
 	}
 
@@ -78,6 +104,38 @@ export class Mediq implements IMediq {
 		return this.exec().length;
 	}
 
+	public case(string: string) {
+		return paramCase(string);
+	}
+
+	public type(type: string) {
+		this.chain.push(new Properties.MediqChainType(this.case(type)));
+	}
+
+	public operator(operator: string) {
+		this.chain.push(new Properties.MediqChainOperator(operatorMap[operator] || operator));
+	}
+
+	public prefix(prefix: string) {
+		this.chain.push(new Properties.MediqChainPrefix(prefix));
+	}
+
+	public feature(feature: string) {
+		this.chain.push(new Properties.MediqChainFeature(this.case(feature)));
+	}
+
+	public args(...args: any[]) {
+		args.map(arg => this.chain.push(new Properties.MediqChainValue(arg)));
+	}
+
+	public keyword(keyword: string) {
+		this.chain.push(new Properties.MediqChainKeyword(this.case(keyword)));
+	}
+
+	public units(units: string) {
+		this.chain.push(new Properties.MediqChainUnit(units));
+	}
+
 	public [Symbol.toPrimitive](hint: 'string' | 'number' | 'default') {
 		if (hint === 'number') {
 			return NaN;
@@ -89,184 +147,74 @@ export class Mediq implements IMediq {
 	public get [Symbol.toStringTag]() {
 		return 'Mediq';
 	}
+}
 
-	private type(type: Types): this {
-		this.chain.push(new Properties.MediqChainType(type));
-		return this;
-	}
+function defineGetterProperties<T>(obj: object, properties: string[], getter: (this: T, property: string) => T) {
+	properties.map(property => {
+		Object.defineProperty(obj, property, {
+			get() {
+				return getter.call(this, property);
+			},
+		});
+	});
 
-	public get all(): this {
-		return this.type(Types.all);
-	}
+	return obj;
+}
 
-	public get print(): this {
-		return this.type(Types.print);
-	}
+defineGetterProperties<Mediq>(Mediq.prototype, types, function(property) {
+	this.type(property);
+	return this;
+});
 
-	public get screen(): this {
-		return this.type(Types.screen);
-	}
+defineGetterProperties<Mediq>(Mediq.prototype, operators, function(property) {
+	this.operator(property);
+	return this;
+});
 
-	public get speech(): this {
-		return this.type(Types.speech);
-	}
+defineGetterProperties<Mediq>(Mediq.prototype, prefixes, function(property) {
+	this.prefix(property);
+	return this;
+});
 
-	private operator(operator: Operators): this {
-		this.chain.push(new Properties.MediqChainOperator(operator));
-		return this;
-	}
+Object.entries(features).map(([feature, map]) => {
+	const prop: PropertyDescriptor = {
+		get(this: Mediq) {
+			const that = this;
+			this.feature(feature);
 
-	public get and(): this {
-		return this.operator(Operators.and);
-	}
+			const keywords = defineGetterProperties<Mediq>({}, map.keywords || [], function(property) {
+				that.keyword(property);
+				return that;
+			});
 
-	public get not(): this {
-		return this.operator(Operators.not);
-	}
+			const units = defineGetterProperties<Mediq>({}, map.units || [], function(property) {
+				that.units(property);
+				return that;
+			});
 
-	public get only(): this {
-		return this.operator(Operators.only);
-	}
+			const p = proto(that, map, { keywords, units });
 
-	public get or(): this {
-		return this.operator(Operators.or);
-	}
+			if (map.function) {
+				return (...args: any[]) => {
+					that.args(map.function(...args));
 
-	private prefix(prefix: Prefixes): this {
-		this.chain.push(new Properties.MediqChainPrefix(prefix));
-		return this;
-	}
+					return p;
+				};
+			}
 
-	public get min(): this {
-		return this.prefix(Prefixes.min);
-	}
+			return p;
+		},
+	};
 
-	public get max(): this {
-		return this.prefix(Prefixes.max);
-	}
+	Object.defineProperty(Mediq.prototype, feature, prop);
+});
 
-	private feature(feature: Features, value?: any): this {
-		this.chain.push(new Properties.MediqChainFeature(feature));
-		if (value !== undefined) {
-			this.chain.push(new Properties.MediqChainValue(value));
-		}
-		return this;
-	}
-
-	public width(width: number): Units.MediqLength {
-		this.feature(Features.width, width);
-		return new Units.MediqLength(this);
-	}
-
-	public height(height: number): Units.MediqLength {
-		this.feature(Features.height, height);
-		return new Units.MediqLength(this);
-	}
-
-	public aspectRatio(a: number, b: number): this;
-	public aspectRatio(ratio: string): this;
-	public aspectRatio(aOrRatio: string | number, b?: number): this {
-		if (typeof aOrRatio === 'string') {
-			return this.feature(Features.aspectRatio, aOrRatio);
-		} else if (typeof aOrRatio === 'number' && typeof b === 'number') {
-			return this.feature(Features.aspectRatio, `${aOrRatio}/${b}`);
-		}
-		return this;
-	}
-
-	public get orientation(): Keywords.MediqOrientation {
-		this.feature(Features.orientation);
-		return new Keywords.MediqOrientation(this);
-	}
-
-	public resolution(resolution: number): Units.MediqResolution {
-		this.feature(Features.resolution, resolution);
-		return new Units.MediqResolution(this);
-	}
-
-	public get scan(): Keywords.MediqScan {
-		this.feature(Features.scan);
-		return new Keywords.MediqScan(this);
-	}
-
-	public grid(grid: 0 | 1): this {
-		return this.feature(Features.grid, grid === 0 ? 0 : grid === 1 ? 1 : 0);
-	}
-
-	public get update(): Keywords.MediqUpdate {
-		this.feature(Features.update);
-		return new Keywords.MediqUpdate(this);
-	}
-
-	public get overflowBlock(): Keywords.MediqOverflowBlock {
-		this.feature(Features.overflowBlock);
-		return new Keywords.MediqOverflowBlock(this);
-	}
-
-	public get overflowInline(): Keywords.MediqOverflowInline {
-		this.feature(Features.overflowInline);
-		return new Keywords.MediqOverflowInline(this);
-	}
-
-	public color(bits: number): this {
-		return this.feature(Features.color, bits);
-	}
-
-	public get colorGamut(): Keywords.MediqColorGamut {
-		this.feature(Features.colorGamut);
-		return new Keywords.MediqColorGamut(this);
-	}
-
-	public colorIndex(colorIndex: number): this {
-		return this.feature(Features.colorIndex, colorIndex);
-	}
-
-	public get displayMode(): Keywords.MediqDisplayMode {
-		this.feature(Features.displayMode);
-		return new Keywords.MediqDisplayMode(this);
-	}
-
-	public monochrome(monochrome: 0 | 1): this {
-		return this.feature(Features.monochrome, monochrome === 0 ? 0 : monochrome === 1 ? 1 : 0);
-	}
-
-	public get invertedColors(): Keywords.MediqInvertedColors {
-		this.feature(Features.invertedColors);
-		return new Keywords.MediqInvertedColors(this);
-	}
-
-	public get anyPointer(): Keywords.MediqPointer {
-		this.feature(Features.anyPointer);
-		return new Keywords.MediqPointer(this);
-	}
-
-	public get pointer(): Keywords.MediqPointer {
-		this.feature(Features.pointer);
-		return new Keywords.MediqPointer(this);
-	}
-
-	public get anyHover(): Keywords.MediqHover {
-		this.feature(Features.anyHover);
-		return new Keywords.MediqHover(this);
-	}
-
-	public get hover(): Keywords.MediqHover {
-		this.feature(Features.hover);
-		return new Keywords.MediqHover(this);
-	}
-
-	public get lightLevel(): Keywords.MediqLightLevel {
-		this.feature(Features.lightLevel);
-		return new Keywords.MediqLightLevel(this);
-	}
-
-	public get prefersReducedMotion(): Keywords.MediqPrefersReducedMotion {
-		this.feature(Features.prefersReducedMotion);
-		return new Keywords.MediqPrefersReducedMotion(this);
-	}
-
-	public get scripting(): Keywords.MediqScripting {
-		this.feature(Features.scripting);
-		return new Keywords.MediqScripting(this);
+function proto(that: any, map: any, props: any) {
+	if (map.keywords) {
+		return props.keywords;
+	} else if (map.units) {
+		return props.units;
+	} else {
+		return that;
 	}
 }

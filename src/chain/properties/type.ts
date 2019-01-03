@@ -1,9 +1,8 @@
-import { Types } from '../../constants/types';
 import { MediqChainProperty } from '../property';
 import { ChainPropertyTypes } from '../property-types';
 
 export class MediqChainType extends MediqChainProperty {
-	constructor(public value: Types) {
+	constructor(public value: string) {
 		super(ChainPropertyTypes.type);
 	}
 }
