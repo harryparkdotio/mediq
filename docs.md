@@ -65,27 +65,6 @@
 > mediq().toString();
 > ```
 
-## styled-components
-
-> _requires styled-components v3+, tested with v4_
-
-_imports_
-
-```ts
-import mediq from 'mediq/styled';
-import { mediq } from 'mediq/styled';
-import { styledMediq } from 'mediq/styled';
-import { styledMediq } from 'mediq';
-```
-
-```ts
-import mediq from 'mediq/styled';
-
-mediq().screen.and.min.width(300).px.css`
-	color: #000;
-`;
-```
-
 ## types
 
 ### all

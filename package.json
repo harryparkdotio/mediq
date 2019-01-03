@@ -26,28 +26,23 @@
 	"scripts": {
 		"build": "tsc -p tsconfig.build.json",
 		"postbuild": "cp package.json dist/ && cp readme.md dist/ && cp license dist/",
+		"prettier": "prettier --write '{src,test}/**/*.ts'",
 		"cover": "codecov",
-		"pretty": "prettier --write '{src,test}/**/*.ts'",
-		"test": "yarn test:prettier && yarn test:lint && yarn test:typecheck && yarn test:unit",
-		"test:prettier": "prettier --list-different '{src,test}/**/*.ts'",
-		"test:lint": "tslint -t codeFrame '{src,test}/**/*.ts'",
-		"test:typecheck": "tsc",
-		"test:unit": "jest --runInBand",
+		"lint": "yarn lint:code && yarn lint:prettier",
+		"lint:prettier": "prettier --list-different '{src,test}/**/*.ts'",
+		"lint:code": "tslint -t codeFrame '{src,test}/**/*.ts'",
+		"test": "jest --runInBand",
 		"release": "np --no-publish"
 	},
-	"dependencies": {},
-	"optionalDependencies": {
-		"styled-components": "^4.1.1"
+	"dependencies": {
+		"change-case": "^3.0.2"
 	},
 	"devDependencies": {
 		"@types/jest": "^23.3.2",
-		"@types/styled-components": "^4.1.0",
 		"codecov": "^3.1.0",
 		"jest": "^23.6.0",
 		"np": "*",
 		"prettier": "^1.14.3",
-		"react": "^16.6.3",
-		"react-dom": "^16.6.3",
 		"ts-jest": "^23.10.1",
 		"tslint": "^5.11.0",
 		"tslint-config-prettier": "^1.15.0",

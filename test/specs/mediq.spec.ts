@@ -1,14 +1,5 @@
-import { MediqAssembler } from '../../src/assembler';
-import * as Keywords from '../../src/keywords';
-import { mediq, Mediq } from '../../src/mediq';
-import { MediqLength } from '../../src/units/length';
-import { MediqResolution } from '../../src/units/resolution';
-
-describe('mediq', () => {
-	it('should return a new instance of Mediq', () => {
-		expect(mediq()).toBeInstanceOf(Mediq);
-	});
-});
+import { Keywords, Units } from '../../src/map';
+import { mediq } from '../../src/mediq';
 
 describe('prototype functions', () => {
 	describe('.toString', () => {
@@ -138,15 +129,6 @@ describe('Symbol functions', () => {
 
 describe('functions', () => {
 	describe('ex', () => {
-		it('should call MediqAssembler.assemble', () => {
-			const m = mediq();
-			jest.spyOn(MediqAssembler.prototype, 'assemble');
-
-			m.exec();
-
-			expect(MediqAssembler.prototype.assemble).toHaveBeenCalled();
-		});
-
 		it('should return assembled media query', () => {
 			const m = mediq();
 			const query = m.screen.and.min.width(200).px;
@@ -257,6 +239,11 @@ describe('prefixes', () => {
 			expect(m.chain[0].value).toEqual('min');
 			expect(m.chain).toHaveLength(1);
 		});
+
+		it('should return this', () => {
+			const m = mediq();
+			expect(m.min).toBe(m);
+		});
 	});
 
 	describe('max', () => {
@@ -267,6 +254,11 @@ describe('prefixes', () => {
 			expect(m.chain[0].type).toEqual('prefix');
 			expect(m.chain[0].value).toEqual('max');
 			expect(m.chain).toHaveLength(1);
+		});
+
+		it('should return this', () => {
+			const m = mediq();
+			expect(m.max).toBe(m);
 		});
 	});
 });
@@ -283,9 +275,10 @@ describe('features', () => {
 			expect(m.chain).toHaveLength(2);
 		});
 
-		it('should return MediqLength instance', () => {
-			const m = mediq();
-			expect(m.width(200)).toBeInstanceOf(MediqLength);
+		it('should return units', () => {
+			const m = mediq().width(100);
+			Object.keys(Units.Length).map(u => expect(m).toHaveProperty(u));
+			expect.assertions(Object.keys(Units.Length).length);
 		});
 	});
 
@@ -300,9 +293,10 @@ describe('features', () => {
 			expect(m.chain).toHaveLength(2);
 		});
 
-		it('should return MediqLength instance', () => {
-			const m = mediq();
-			expect(m.height(200)).toBeInstanceOf(MediqLength);
+		it('should return units', () => {
+			const m = mediq().height(100);
+			Object.keys(Units.Length).map(u => expect(m).toHaveProperty(u));
+			expect.assertions(Object.keys(Units.Length).length);
 		});
 	});
 
@@ -325,10 +319,14 @@ describe('features', () => {
 			expect(m.chain).toHaveLength(2);
 		});
 
-		it('should not set aspect-ratio if invalid params provided', () => {
+		it('should throw if invalid params provided', () => {
 			// @ts-ignore
-			const m = mediq().aspectRatio(1, '2');
-			expect(m.chain).toHaveLength(0);
+			expect(() => mediq().aspectRatio(1, '2')).toThrow();
+		});
+
+		it('should return this', () => {
+			const m = mediq();
+			expect(m.aspectRatio(1, 2)).toBe(m);
 		});
 	});
 
@@ -342,9 +340,10 @@ describe('features', () => {
 			expect(m.chain).toHaveLength(1);
 		});
 
-		it('should return MediqOrientation instance', () => {
-			const m = mediq();
-			expect(m.orientation).toBeInstanceOf(Keywords.MediqOrientation);
+		it('should return keywords', () => {
+			const m = mediq().orientation;
+			Object.keys(Keywords.Orientation).map(u => expect(m).toHaveProperty(u));
+			expect.assertions(Object.keys(Keywords.Orientation).length);
 		});
 	});
 
@@ -359,9 +358,10 @@ describe('features', () => {
 			expect(m.chain).toHaveLength(2);
 		});
 
-		it('should return MediqResolution instance', () => {
-			const m = mediq();
-			expect(m.resolution(200)).toBeInstanceOf(MediqResolution);
+		it('should return units', () => {
+			const m = mediq().resolution(100);
+			Object.keys(Units.Resolution).map(u => expect(m).toHaveProperty(u));
+			expect.assertions(Object.keys(Units.Resolution).length);
 		});
 	});
 
@@ -373,11 +373,6 @@ describe('features', () => {
 			expect(m.chain[0].type).toEqual('feature');
 			expect(m.chain[0].value).toEqual('scan');
 			expect(m.chain).toHaveLength(1);
-		});
-
-		it('should return MediqScan instance', () => {
-			const m = mediq();
-			expect(m.scan).toBeInstanceOf(Keywords.MediqScan);
 		});
 	});
 
@@ -428,11 +423,6 @@ describe('features', () => {
 			expect(m.chain[0].value).toEqual('update');
 			expect(m.chain).toHaveLength(1);
 		});
-
-		it('should return MediqUpdate instance', () => {
-			const m = mediq();
-			expect(m.update).toBeInstanceOf(Keywords.MediqUpdate);
-		});
 	});
 
 	describe('overflow-block', () => {
@@ -444,11 +434,6 @@ describe('features', () => {
 			expect(m.chain[0].value).toEqual('overflow-block');
 			expect(m.chain).toHaveLength(1);
 		});
-
-		it('should return MediqOverflowBlock instance', () => {
-			const m = mediq();
-			expect(m.overflowBlock).toBeInstanceOf(Keywords.MediqOverflowBlock);
-		});
 	});
 
 	describe('overflow-inline', () => {
@@ -459,11 +444,6 @@ describe('features', () => {
 			expect(m.chain[0].type).toEqual('feature');
 			expect(m.chain[0].value).toEqual('overflow-inline');
 			expect(m.chain).toHaveLength(1);
-		});
-
-		it('should return MediqOverflowInline instance', () => {
-			const m = mediq();
-			expect(m.overflowInline).toBeInstanceOf(Keywords.MediqOverflowInline);
 		});
 	});
 
@@ -493,11 +473,6 @@ describe('features', () => {
 			expect(m.chain[0].value).toEqual('color-gamut');
 			expect(m.chain).toHaveLength(1);
 		});
-
-		it('should return MediqColorGamut instance', () => {
-			const m = mediq();
-			expect(m.colorGamut).toBeInstanceOf(Keywords.MediqColorGamut);
-		});
 	});
 
 	describe('color-index', () => {
@@ -525,11 +500,6 @@ describe('features', () => {
 			expect(m.chain[0].type).toEqual('feature');
 			expect(m.chain[0].value).toEqual('display-mode');
 			expect(m.chain).toHaveLength(1);
-		});
-
-		it('should return MediqDisplayMode instance', () => {
-			const m = mediq();
-			expect(m.displayMode).toBeInstanceOf(Keywords.MediqDisplayMode);
 		});
 	});
 
@@ -580,11 +550,6 @@ describe('features', () => {
 			expect(m.chain[0].value).toEqual('inverted-colors');
 			expect(m.chain).toHaveLength(1);
 		});
-
-		it('should return MediqInvertedColors instance', () => {
-			const m = mediq();
-			expect(m.invertedColors).toBeInstanceOf(Keywords.MediqInvertedColors);
-		});
 	});
 
 	describe('any-pointer', () => {
@@ -595,11 +560,6 @@ describe('features', () => {
 			expect(m.chain[0].type).toEqual('feature');
 			expect(m.chain[0].value).toEqual('any-pointer');
 			expect(m.chain).toHaveLength(1);
-		});
-
-		it('should return MediqPointer instance', () => {
-			const m = mediq();
-			expect(m.anyPointer).toBeInstanceOf(Keywords.MediqPointer);
 		});
 	});
 
@@ -612,11 +572,6 @@ describe('features', () => {
 			expect(m.chain[0].value).toEqual('pointer');
 			expect(m.chain).toHaveLength(1);
 		});
-
-		it('should return MediqPointer instance', () => {
-			const m = mediq();
-			expect(m.pointer).toBeInstanceOf(Keywords.MediqPointer);
-		});
 	});
 
 	describe('any-hover', () => {
@@ -627,11 +582,6 @@ describe('features', () => {
 			expect(m.chain[0].type).toEqual('feature');
 			expect(m.chain[0].value).toEqual('any-hover');
 			expect(m.chain).toHaveLength(1);
-		});
-
-		it('should return MediqHover instance', () => {
-			const m = mediq();
-			expect(m.anyHover).toBeInstanceOf(Keywords.MediqHover);
 		});
 	});
 
@@ -644,11 +594,6 @@ describe('features', () => {
 			expect(m.chain[0].value).toEqual('hover');
 			expect(m.chain).toHaveLength(1);
 		});
-
-		it('should return MediqHover instance', () => {
-			const m = mediq();
-			expect(m.hover).toBeInstanceOf(Keywords.MediqHover);
-		});
 	});
 
 	describe('light-level', () => {
@@ -659,11 +604,6 @@ describe('features', () => {
 			expect(m.chain[0].type).toEqual('feature');
 			expect(m.chain[0].value).toEqual('light-level');
 			expect(m.chain).toHaveLength(1);
-		});
-
-		it('should return MediqLightLevel instance', () => {
-			const m = mediq();
-			expect(m.lightLevel).toBeInstanceOf(Keywords.MediqLightLevel);
 		});
 	});
 
@@ -676,11 +616,6 @@ describe('features', () => {
 			expect(m.chain[0].value).toEqual('prefers-reduced-motion');
 			expect(m.chain).toHaveLength(1);
 		});
-
-		it('should return MediqPrefersReducedMotion instance', () => {
-			const m = mediq();
-			expect(m.prefersReducedMotion).toBeInstanceOf(Keywords.MediqPrefersReducedMotion);
-		});
 	});
 
 	describe('scripting', () => {
@@ -691,11 +626,6 @@ describe('features', () => {
 			expect(m.chain[0].type).toEqual('feature');
 			expect(m.chain[0].value).toEqual('scripting');
 			expect(m.chain).toHaveLength(1);
-		});
-
-		it('should return MediqScripting instance', () => {
-			const m = mediq();
-			expect(m.scripting).toBeInstanceOf(Keywords.MediqScripting);
 		});
 	});
 });
