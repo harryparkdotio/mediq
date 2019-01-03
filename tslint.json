@@ -1,12 +1,12 @@
 {
-	"extends": ["tslint:recommended", "tslint-config-prettier"],
-	"defaultSeverity": "error",
-	"rules": {
-		"max-line-length": [false],
-		"member-access": false,
-		"member-ordering": false,
-		"object-literal-sort-keys": false,
-		"only-arrow-functions": false,
-		"variable-name": [true, "check-format", "allow-leading-underscore", "allow-pascal-case"]
-	}
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "defaultSeverity": "error",
+  "rules": {
+    "max-line-length": [false],
+    "member-access": false,
+    "member-ordering": false,
+    "object-literal-sort-keys": false,
+    "only-arrow-functions": false,
+    "variable-name": [true, "check-format", "allow-leading-underscore", "allow-pascal-case"]
+  }
 }

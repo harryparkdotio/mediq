@@ -1,10 +1,10 @@
 {
-	"extends": "./tsconfig.json",
-	"compilerOptions": {
-		"noEmit": false,
-		"outDir": "dist",
-		"declaration": true,
-		"removeComments": false
-	},
-	"include": ["src"]
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist",
+    "declaration": true,
+    "removeComments": false
+  },
+  "include": ["src"]
 }
