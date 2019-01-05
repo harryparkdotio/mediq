@@ -1,5 +1,4 @@
-import { MediqAssembler } from '../../../src/assembler';
-import { Properties } from '../../../src/chain';
+import { ChainType, MediqAssembler } from '../../../src/assembler';
 import { Mediq } from '../../../src/mediq';
 
 import * as generate from '../../utils/generate-properties';
@@ -17,30 +16,30 @@ const assembleCases = [
   [
     'screen and (min-width: 200px)',
     [
-      new Properties.MediqChainType('screen'),
-      new Properties.MediqChainOperator('and'),
-      new Properties.MediqChainPrefix('min'),
-      new Properties.MediqChainFeature('width'),
-      new Properties.MediqChainValue(200),
-      new Properties.MediqChainUnit('px'),
+      { type: ChainType.type, value: 'screen' },
+      { type: ChainType.operator, value: 'and' },
+      { type: ChainType.prefix, value: 'min' },
+      { type: ChainType.feature, value: 'width' },
+      { type: ChainType.value, value: 200 },
+      { type: ChainType.unit, value: 'px' },
     ],
   ],
   [
     'print and (orientation: landscape)',
     [
-      new Properties.MediqChainType('print'),
-      new Properties.MediqChainOperator('and'),
-      new Properties.MediqChainFeature('orientation'),
-      new Properties.MediqChainKeyword('landscape'),
+      { type: ChainType.type, value: 'print' },
+      { type: ChainType.operator, value: 'and' },
+      { type: ChainType.feature, value: 'orientation' },
+      { type: ChainType.keyword, value: 'landscape' },
     ],
   ],
   [
     'print, (orientation: landscape)',
     [
-      new Properties.MediqChainType('print'),
-      new Properties.MediqChainOperator(','),
-      new Properties.MediqChainFeature('orientation'),
-      new Properties.MediqChainKeyword('landscape'),
+      { type: ChainType.type, value: 'print' },
+      { type: ChainType.operator, value: ',' },
+      { type: ChainType.feature, value: 'orientation' },
+      { type: ChainType.keyword, value: 'landscape' },
     ],
   ],
 ];
@@ -114,12 +113,12 @@ describe('MediqAssembler', () => {
   describe('assemble', () => {
     it('should call group, assembleProps', () => {
       const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
       const spyGroup = jest.spyOn(ma, 'group');
       const spyAssemProps = jest.spyOn(ma, 'assembleProps');
 
-      ma.assemble();
+      ma.assemble(m.chain);
 
       expect(ma.group).toHaveBeenCalled();
       expect(ma.assembleProps).toHaveBeenCalled();
@@ -130,18 +129,17 @@ describe('MediqAssembler', () => {
 
     it.each(assembleCases)('should output correctly media query: `%s`', (expected, chain) => {
       const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
       m.chain.push(...chain);
 
-      expect(ma.assemble()).toEqual(expected);
+      expect(ma.assemble(m.chain)).toEqual(expected);
     });
   });
 
   describe('group', () => {
     it.each(groupCases)('should return grouped array (%s)', (name, flat, grouped) => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
       expect(ma.group(flat)).toEqual(grouped);
     });
@@ -149,13 +147,12 @@ describe('MediqAssembler', () => {
 
   describe('assembleProps', () => {
     it('should call assembleProp and assembleFeature', () => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
       const propGroups = [
-        [new Properties.MediqChainFeature('orientation'), new Properties.MediqChainKeyword('landscape')],
-        [new Properties.MediqChainType('all')],
-        [new Properties.MediqChainOperator('and')],
+        [{ type: ChainType.feature, value: 'orientation' }, { type: ChainType.keyword, value: 'landscape' }],
+        [{ type: ChainType.type, value: 'all' }],
+        [{ type: ChainType.operator, value: 'and' }],
       ];
 
       const spyAssemProp = jest.spyOn(ma, 'assembleProp');
@@ -173,19 +170,20 @@ describe('MediqAssembler', () => {
 
   describe('assembleProp', () => {
     it('should assemble prop group', () => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
-      const propGroup = [new Properties.MediqChainType('all')];
+      const propGroup = [{ type: ChainType.type, value: 'all' }];
 
       expect(ma.assembleProp(propGroup)).toEqual('all');
     });
 
     it('should call assembleFeature (feature + keyword)', () => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
-      const featureGroup = [new Properties.MediqChainFeature('height'), new Properties.MediqChainKeyword('browser')];
+      const featureGroup = [
+        { type: ChainType.feature, value: 'height' },
+        { type: ChainType.keyword, value: 'browser' },
+      ];
 
       const spy = jest.spyOn(ma, 'assembleFeature');
 
@@ -197,13 +195,12 @@ describe('MediqAssembler', () => {
     });
 
     it('should call assembleFeature (feature + value + unit)', () => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
       const featureGroup = [
-        new Properties.MediqChainFeature('height'),
-        new Properties.MediqChainValue(200),
-        new Properties.MediqChainUnit('px'),
+        { type: ChainType.feature, value: 'height' },
+        { type: ChainType.value, value: 200 },
+        { type: ChainType.unit, value: 'px' },
       ];
 
       const spy = jest.spyOn(ma, 'assembleFeature');
@@ -216,14 +213,13 @@ describe('MediqAssembler', () => {
     });
 
     it('should call assembleFeature (prefix + feature + value + unit)', () => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
       const featureGroup = [
-        new Properties.MediqChainPrefix('min'),
-        new Properties.MediqChainFeature('height'),
-        new Properties.MediqChainValue(200),
-        new Properties.MediqChainUnit('px'),
+        { type: ChainType.prefix, value: 'min' },
+        { type: ChainType.feature, value: 'height' },
+        { type: ChainType.value, value: 200 },
+        { type: ChainType.unit, value: 'px' },
       ];
 
       const spy = jest.spyOn(ma, 'assembleFeature');
@@ -236,24 +232,22 @@ describe('MediqAssembler', () => {
     });
 
     it('should group feature in brackets', () => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
       const featureGroup = [
-        new Properties.MediqChainPrefix('min'),
-        new Properties.MediqChainFeature('height'),
-        new Properties.MediqChainValue(200),
-        new Properties.MediqChainUnit('px'),
+        { type: ChainType.prefix, value: 'min' },
+        { type: ChainType.feature, value: 'height' },
+        { type: ChainType.value, value: 200 },
+        { type: ChainType.unit, value: 'px' },
       ];
 
       expect(ma.assembleProp(featureGroup)).toEqual('(min-height: 200px)');
     });
 
     it('should not group non-feature in brackets', () => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
-      const featureGroup = [new Properties.MediqChainType('print')];
+      const featureGroup = [{ type: ChainType.type, value: 'print' }];
 
       expect(ma.assembleProp(featureGroup)).toEqual('print');
     });
@@ -261,36 +255,36 @@ describe('MediqAssembler', () => {
 
   describe('assembleFeature', () => {
     it('should assemble feature group (feature + keyword)', () => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
-      const group = [new Properties.MediqChainFeature('orientation'), new Properties.MediqChainKeyword('landscape')];
+      const group = [
+        { type: ChainType.feature, value: 'orientation' },
+        { type: ChainType.keyword, value: 'landscape' },
+      ];
 
       expect(ma.assembleFeature(group)).toEqual('orientation: landscape');
     });
 
     it('should assemble feature group (feature + value + unit)', () => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
       const group = [
-        new Properties.MediqChainFeature('height'),
-        new Properties.MediqChainValue(200),
-        new Properties.MediqChainUnit('px'),
+        { type: ChainType.feature, value: 'height' },
+        { type: ChainType.value, value: 200 },
+        { type: ChainType.unit, value: 'px' },
       ];
 
       expect(ma.assembleFeature(group)).toEqual('height: 200px');
     });
 
     it('should assemble feature group (prefix + feature + value + unit)', () => {
-      const m = new Mediq();
-      const ma = new MediqAssembler(m);
+      const ma = new MediqAssembler();
 
       const group = [
-        new Properties.MediqChainPrefix('min'),
-        new Properties.MediqChainFeature('width'),
-        new Properties.MediqChainValue(20),
-        new Properties.MediqChainUnit('em'),
+        { type: ChainType.prefix, value: 'min' },
+        { type: ChainType.feature, value: 'width' },
+        { type: ChainType.value, value: 20 },
+        { type: ChainType.unit, value: 'em' },
       ];
 
       expect(ma.assembleFeature(group)).toEqual('min-width: 20em');

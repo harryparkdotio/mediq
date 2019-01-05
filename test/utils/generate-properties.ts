@@ -1,40 +1,41 @@
-import { Properties } from '../../src/chain';
+import { ChainType } from '../../src/assembler';
 import { features, Keywords, operators, prefixes, types, Units } from '../../src/map';
+import { IChain } from '../../src/mediq';
 
 function randomPick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-export function feature(): Properties.MediqChainFeature {
+export function feature(): IChain {
   const f = randomPick(Object.keys(features));
-  return new Properties.MediqChainFeature(f);
+  return { type: ChainType.feature, value: f };
 }
 
-export function keyword(): Properties.MediqChainKeyword {
+export function keyword(): IChain {
   const k = randomPick(Object.keys(Keywords.DisplayMode));
-  return new Properties.MediqChainKeyword(k);
+  return { type: ChainType.keyword, value: k };
 }
 
-export function operator(): Properties.MediqChainOperator {
+export function operator(): IChain {
   const o = randomPick(operators);
-  return new Properties.MediqChainOperator(o);
+  return { type: ChainType.operator, value: o };
 }
 
-export function prefix(): Properties.MediqChainPrefix {
+export function prefix(): IChain {
   const p = randomPick(prefixes);
-  return new Properties.MediqChainPrefix(p);
+  return { type: ChainType.prefix, value: p };
 }
 
-export function type(): Properties.MediqChainOperator {
+export function type(): IChain {
   const t = randomPick(types);
-  return new Properties.MediqChainOperator(t);
+  return { type: ChainType.type, value: t };
 }
 
-export function unit(): Properties.MediqChainUnit {
+export function unit(): IChain {
   const u = randomPick(Object.keys(Units.Length));
-  return new Properties.MediqChainUnit(u);
+  return { type: ChainType.unit, value: u };
 }
 
-export function value(): Properties.MediqChainValue {
-  return new Properties.MediqChainValue(100);
+export function value(): IChain {
+  return { type: ChainType.value, value: 100 };
 }
