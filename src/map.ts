@@ -1,118 +1,171 @@
 // tslint:disable-next-line:no-namespace
 export namespace Units {
-  export enum Length {
-    em,
-    rem,
-    vh,
-    vw,
-    px,
-    cm,
-    mm,
-    in,
-    pc,
-    pt,
-  }
+  export const Length = {
+    em: 'em',
+    rem: 'rem',
+    vh: 'vh',
+    vw: 'vw',
+    px: 'px',
+    cm: 'cm',
+    mm: 'mm',
+    in: 'in',
+    pc: 'pc',
+    pt: 'pt',
+  };
 
-  export enum Resolution {
-    dpi,
-    dpcm,
-    dppx,
-    x,
-  }
+  export const Resolution = {
+    dpi: 'dpi',
+    dpcm: 'dpcm',
+    dppx: 'dppx',
+    x: 'x',
+  };
 }
 
 // tslint:disable-next-line:no-namespace
 export namespace Keywords {
-  export enum DisplayMode {
-    fullscreen,
-    standalone,
-    'minimal-ui',
-    browser,
-  }
+  const none = 'none';
+  const scroll = 'scroll';
 
-  export enum Hover {
+  export const DisplayMode = {
+    fullscreen: 'fullscreen',
+    standalone: 'standalone',
+    minimalUi: 'minimal-ui',
+    browser: 'browser',
+  };
+
+  export const Hover = {
     none,
-    hover,
-  }
+    hover: 'hover',
+  };
 
-  export enum InvertedColors {
+  export const InvertedColors = {
     none,
-    inverted,
-  }
+    inverted: 'inverted',
+  };
 
-  export enum LightLevel {
-    dim,
-    normal,
-    washed,
-  }
+  export const LightLevel = {
+    dim: 'dim',
+    normal: 'normal',
+    washed: 'washed',
+  };
 
-  export enum Orientation {
-    portrait,
-    landscape,
-  }
+  export const Orientation = {
+    portrait: 'portrait',
+    landscape: 'landscape',
+  };
 
-  export enum OverflowBlock {
+  export const OverflowBlock = {
     none,
     scroll,
-    'optional-paged',
-    paged,
-  }
-  export enum Pointer {
+    paged: 'paged',
+    optionalPaged: 'optionalPaged',
+  };
+
+  export const Pointer = {
     none,
     scroll,
-  }
-  export enum PrefersReducedMotion {
-    reduce,
-    'no-preference',
-  }
-  export enum Scan {
-    interface,
-    progressive,
-  }
-  export enum Scripting {
+  };
+
+  export const PrefersReducedMotion = {
+    reduce: 'reduce',
+    noPreference: 'no-preference',
+  };
+
+  export const Scan = {
+    interface: 'interface',
+    progressive: 'progressive',
+  };
+
+  export const Scripting = {
     none,
-    'initial-only',
-    enabled,
-  }
-  export enum Update {
+    initialOnly: 'initial-only',
+    enabled: 'enabled',
+  };
+
+  export const Update = {
     none,
-    slow,
-    fast,
-  }
-  export enum ColorGamut {
-    srgb,
-    p3,
-    rec2020,
-  }
-  export enum OverflowInline {
+    slow: 'slow',
+    fast: 'fast',
+  };
+
+  export const ColorGamut = {
+    srgb: 'srgb',
+    p3: 'p3',
+    rec2020: 'rec2020',
+  };
+
+  export const OverflowInline = {
     none,
     scroll,
-  }
+  };
 }
 
-interface IFeatureMap {
+export const types = {
+  all: 'all',
+  print: 'print',
+  screen: 'screen',
+  speech: 'speech',
+};
+
+export const operators = {
+  and: 'and',
+  not: 'not',
+  only: 'only',
+  or: ',',
+};
+
+export const prefixes = {
+  min: 'min',
+  max: 'max',
+};
+
+enum Features {
+  width,
+  height,
+  aspectRatio,
+  orientation,
+  resolution,
+  scan,
+  grid,
+  update,
+  overflowBlock,
+  overflowInline,
+  color,
+  colorGamut,
+  colorIndex,
+  displayMode,
+  monochrome,
+  invertedColors,
+  anyPointer,
+  pointer,
+  anyHover,
+  hover,
+  lightLevel,
+  prefersReducedMotion,
+  scripting,
+}
+
+interface IFeature {
+  value: string;
   // tslint:disable-next-line:ban-types
   function?: Function;
-  units?: string[];
-  keywords?: string[];
+  units?: { [unit: string]: string };
+  keywords?: { [keyword: string]: string };
 }
 
-export const types: string[] = ['all', 'print', 'screen', 'speech'];
-export const operators: string[] = ['and', 'not', 'only', 'or']; // or == ','
-export const operatorMap = { or: ',' };
-
-export const prefixes: string[] = ['min', 'max'];
-
-export const features: { [feature: string]: IFeatureMap } = {
+export const features: Record<keyof typeof Features, IFeature> = {
   width: {
+    value: 'width',
     function: (width: number) => width,
-    units: Object.keys(Units.Length),
+    units: Units.Length,
   },
   height: {
+    value: 'height',
     function: (height: number) => height,
-    units: Object.keys(Units.Length),
+    units: Units.Length,
   },
   aspectRatio: {
+    value: 'aspect-ratio',
     function: (aOrRatio: string | number, b?: number): string => {
       if (typeof aOrRatio === 'number' && typeof b === 'number') {
         return `${aOrRatio}/${b}`;
@@ -124,64 +177,84 @@ export const features: { [feature: string]: IFeatureMap } = {
     },
   },
   orientation: {
-    keywords: Object.keys(Keywords.Orientation),
+    value: 'orientation',
+    keywords: Keywords.Orientation,
   },
   resolution: {
+    value: 'resolution',
     function: (resolution: number) => resolution,
-    units: Object.keys(Units.Resolution),
+    units: Units.Resolution,
   },
   scan: {
-    keywords: Object.keys(Keywords.Scan),
+    value: 'scan',
+    keywords: Keywords.Scan,
   },
   grid: {
+    value: 'grid',
     function: (grid: 0 | 1) => (grid === 1 ? 1 : 0),
   },
   update: {
-    keywords: Object.keys(Keywords.Update),
+    value: 'update',
+    keywords: Keywords.Update,
   },
   overflowBlock: {
-    keywords: Object.keys(Keywords.OverflowBlock),
+    value: 'overflow-block',
+    keywords: Keywords.OverflowBlock,
   },
   overflowInline: {
-    keywords: Object.keys(Keywords.OverflowInline),
+    value: 'overflow-inline',
+    keywords: Keywords.OverflowInline,
   },
   color: {
+    value: 'color',
     function: (bits: number) => bits,
   },
   colorGamut: {
-    keywords: Object.keys(Keywords.ColorGamut),
+    value: 'color-gamut',
+    keywords: Keywords.ColorGamut,
   },
   colorIndex: {
+    value: 'color-index',
     function: (colorIndex: number) => colorIndex,
   },
   displayMode: {
-    keywords: Object.keys(Keywords.DisplayMode),
+    value: 'display-mode',
+    keywords: Keywords.DisplayMode,
   },
   monochrome: {
+    value: 'monochrome',
     function: (monochrome: 0 | 1) => (monochrome === 1 ? 1 : 0),
   },
   invertedColors: {
-    keywords: Object.keys(Keywords.InvertedColors),
+    value: 'inverted-colors',
+    keywords: Keywords.InvertedColors,
   },
   anyPointer: {
-    keywords: Object.keys(Keywords.Pointer),
+    value: 'any-pointer',
+    keywords: Keywords.Pointer,
   },
   pointer: {
-    keywords: Object.keys(Keywords.Pointer),
+    value: 'pointer',
+    keywords: Keywords.Pointer,
   },
   anyHover: {
-    keywords: Object.keys(Keywords.Hover),
+    value: 'any-hover',
+    keywords: Keywords.Hover,
   },
   hover: {
-    keywords: Object.keys(Keywords.Hover),
+    value: 'hover',
+    keywords: Keywords.Hover,
   },
   lightLevel: {
-    keywords: Object.keys(Keywords.LightLevel),
+    value: 'light-level',
+    keywords: Keywords.LightLevel,
   },
   prefersReducedMotion: {
-    keywords: Object.keys(Keywords.PrefersReducedMotion),
+    value: 'prefers-reduced-motion',
+    keywords: Keywords.PrefersReducedMotion,
   },
   scripting: {
-    keywords: Object.keys(Keywords.Scripting),
+    value: 'scripting',
+    keywords: Keywords.Scripting,
   },
 };

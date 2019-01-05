@@ -17,17 +17,17 @@ export function keyword(): IChain {
 }
 
 export function operator(): IChain {
-  const o = randomPick(operators);
+  const o = randomPick(Object.keys(operators));
   return { type: ChainType.operator, value: o };
 }
 
 export function prefix(): IChain {
-  const p = randomPick(prefixes);
+  const p = randomPick(Object.keys(prefixes));
   return { type: ChainType.prefix, value: p };
 }
 
 export function type(): IChain {
-  const t = randomPick(types);
+  const t = randomPick(Object.keys(types));
   return { type: ChainType.type, value: t };
 }
 

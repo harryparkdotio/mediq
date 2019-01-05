@@ -1,6 +1,5 @@
-import { paramCase } from 'change-case';
 import { ChainType, MediqAssembler } from './assembler';
-import { features, Keywords, operatorMap, operators, prefixes, types, Units } from './map';
+import { features, Keywords, operators, prefixes, types, Units } from './map';
 
 // tslint:disable-next-line:no-namespace
 export namespace Types {
@@ -108,35 +107,31 @@ export class Mediq {
     return this.exec().length;
   }
 
-  public case(string: string) {
-    return paramCase(string);
-  }
-
   public type(type: string) {
     this.chain.push({
       type: ChainType.type,
-      value: this.case(type),
+      value: types[type],
     });
   }
 
   public operator(operator: string) {
     this.chain.push({
       type: ChainType.operator,
-      value: operatorMap[operator] || operator,
+      value: operators[operator],
     });
   }
 
   public prefix(prefix: string) {
     this.chain.push({
       type: ChainType.prefix,
-      value: prefix,
+      value: prefixes[prefix],
     });
   }
 
   public feature(feature: string) {
     this.chain.push({
       type: ChainType.feature,
-      value: this.case(feature),
+      value: features[feature].value,
     });
   }
 
@@ -145,7 +140,7 @@ export class Mediq {
   }
 
   public keyword(keyword: string) {
-    this.chain.push({ type: ChainType.keyword, value: this.case(keyword) });
+    this.chain.push({ type: ChainType.keyword, value: keyword });
   }
 
   public units(units: string) {
@@ -177,17 +172,17 @@ function defineGetterProperties<T>(obj: object, properties: string[], getter: (t
   return obj;
 }
 
-defineGetterProperties<Mediq>(Mediq.prototype, types, function(property) {
+defineGetterProperties<Mediq>(Mediq.prototype, Object.keys(types), function(property) {
   this.type(property);
   return this;
 });
 
-defineGetterProperties<Mediq>(Mediq.prototype, operators, function(property) {
+defineGetterProperties<Mediq>(Mediq.prototype, Object.keys(operators), function(property) {
   this.operator(property);
   return this;
 });
 
-defineGetterProperties<Mediq>(Mediq.prototype, prefixes, function(property) {
+defineGetterProperties<Mediq>(Mediq.prototype, Object.keys(prefixes), function(property) {
   this.prefix(property);
   return this;
 });
@@ -198,13 +193,13 @@ Object.entries(features).map(([feature, map]) => {
       const that = this;
       this.feature(feature);
 
-      const keywords = defineGetterProperties<Mediq>({}, map.keywords || [], function(property) {
-        that.keyword(property);
+      const keywords = defineGetterProperties<Mediq>({}, Object.keys(map.keywords || {}), function(property) {
+        that.keyword(map.keywords[property]);
         return that;
       });
 
-      const units = defineGetterProperties<Mediq>({}, map.units || [], function(property) {
-        that.units(property);
+      const units = defineGetterProperties<Mediq>({}, Object.keys(map.units || {}), function(property) {
+        that.units(map.units[property]);
         return that;
       });
 

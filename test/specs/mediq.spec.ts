@@ -1,9 +1,9 @@
-import { Keywords, Units } from '../../src/map';
+import { features } from '../../src/map';
 import { mediq } from '../../src/mediq';
 
 describe('prototype functions', () => {
   describe('.toString', () => {
-    it('should call Mediq.exec', () => {
+    it('should call .exec', () => {
       const m = mediq();
       jest.spyOn(m, 'exec');
 
@@ -20,7 +20,7 @@ describe('prototype functions', () => {
   });
 
   describe('.valueOf', () => {
-    it('should call Mediq.exec', () => {
+    it('should call .exec', () => {
       const m = mediq();
       jest.spyOn(m, 'exec');
 
@@ -37,7 +37,7 @@ describe('prototype functions', () => {
   });
 
   describe('.toJSON', () => {
-    it('should call Mediq.exec', () => {
+    it('should call .exec', () => {
       const m = mediq();
       jest.spyOn(m, 'exec');
 
@@ -54,7 +54,7 @@ describe('prototype functions', () => {
   });
 
   describe('.length', () => {
-    it('should call Mediq.exec', () => {
+    it('should call .exec', () => {
       const m = mediq();
       jest.spyOn(m, 'exec');
 
@@ -147,6 +147,11 @@ describe('types', () => {
       expect(m.chain[0].value).toEqual('all');
       expect(m.chain).toHaveLength(1);
     });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('all', m);
+    });
   });
 
   describe('print', () => {
@@ -157,6 +162,11 @@ describe('types', () => {
       expect(m.chain[0].type).toEqual('type');
       expect(m.chain[0].value).toEqual('print');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('print', m);
     });
   });
 
@@ -169,6 +179,11 @@ describe('types', () => {
       expect(m.chain[0].value).toEqual('screen');
       expect(m.chain).toHaveLength(1);
     });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('screen', m);
+    });
   });
 
   describe('speech', () => {
@@ -179,6 +194,11 @@ describe('types', () => {
       expect(m.chain[0].type).toEqual('type');
       expect(m.chain[0].value).toEqual('speech');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('speech', m);
     });
   });
 });
@@ -193,6 +213,11 @@ describe('operators', () => {
       expect(m.chain[0].value).toEqual('and');
       expect(m.chain).toHaveLength(1);
     });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('and', m);
+    });
   });
 
   describe('not', () => {
@@ -203,6 +228,11 @@ describe('operators', () => {
       expect(m.chain[0].type).toEqual('operator');
       expect(m.chain[0].value).toEqual('not');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('not', m);
     });
   });
 
@@ -215,6 +245,11 @@ describe('operators', () => {
       expect(m.chain[0].value).toEqual('only');
       expect(m.chain).toHaveLength(1);
     });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('only', m);
+    });
   });
 
   describe('or', () => {
@@ -225,6 +260,11 @@ describe('operators', () => {
       expect(m.chain[0].type).toEqual('operator');
       expect(m.chain[0].value).toEqual(',');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('or', m);
     });
   });
 });
@@ -240,9 +280,9 @@ describe('prefixes', () => {
       expect(m.chain).toHaveLength(1);
     });
 
-    it('should return this', () => {
+    it('should be a property', () => {
       const m = mediq();
-      expect(m.min).toBe(m);
+      expect(m).toHaveProperty('min', m);
     });
   });
 
@@ -256,9 +296,9 @@ describe('prefixes', () => {
       expect(m.chain).toHaveLength(1);
     });
 
-    it('should return this', () => {
+    it('should be a property', () => {
       const m = mediq();
-      expect(m.max).toBe(m);
+      expect(m).toHaveProperty('max', m);
     });
   });
 });
@@ -275,10 +315,16 @@ describe('features', () => {
       expect(m.chain).toHaveLength(2);
     });
 
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('width');
+    });
+
     it('should return units', () => {
-      const m = mediq().width(100);
-      Object.keys(Units.Length).map(u => expect(m).toHaveProperty(u));
-      expect.assertions(Object.keys(Units.Length).length);
+      const unts = features.width.units;
+      const m = mediq();
+      Object.keys(unts).map(u => expect(m.width(100)).toHaveProperty(u, m));
+      expect.assertions(Object.keys(unts).length);
     });
   });
 
@@ -293,10 +339,16 @@ describe('features', () => {
       expect(m.chain).toHaveLength(2);
     });
 
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('height');
+    });
+
     it('should return units', () => {
-      const m = mediq().height(100);
-      Object.keys(Units.Length).map(u => expect(m).toHaveProperty(u));
-      expect.assertions(Object.keys(Units.Length).length);
+      const unts = features.height.units;
+      const m = mediq();
+      Object.keys(unts).map(u => expect(m.height(100)).toHaveProperty(u, m));
+      expect.assertions(Object.keys(unts).length);
     });
   });
 
@@ -317,6 +369,11 @@ describe('features', () => {
       expect(m.chain[1].type).toEqual('value');
       expect(m.chain[1].value).toEqual('1/2');
       expect(m.chain).toHaveLength(2);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('aspectRatio');
     });
 
     it('should throw if invalid params provided', () => {
@@ -340,10 +397,16 @@ describe('features', () => {
       expect(m.chain).toHaveLength(1);
     });
 
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('orientation');
+    });
+
     it('should return keywords', () => {
-      const m = mediq().orientation;
-      Object.keys(Keywords.Orientation).map(u => expect(m).toHaveProperty(u));
-      expect.assertions(Object.keys(Keywords.Orientation).length);
+      const kwds = features.orientation.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.orientation).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
     });
   });
 
@@ -358,10 +421,16 @@ describe('features', () => {
       expect(m.chain).toHaveLength(2);
     });
 
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('resolution');
+    });
+
     it('should return units', () => {
-      const m = mediq().resolution(100);
-      Object.keys(Units.Resolution).map(u => expect(m).toHaveProperty(u));
-      expect.assertions(Object.keys(Units.Resolution).length);
+      const unts = features.resolution.units;
+      const m = mediq();
+      Object.keys(unts).map(u => expect(m.resolution(100)).toHaveProperty(u, m));
+      expect.assertions(Object.keys(unts).length);
     });
   });
 
@@ -373,6 +442,18 @@ describe('features', () => {
       expect(m.chain[0].type).toEqual('feature');
       expect(m.chain[0].value).toEqual('scan');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should return keywords', () => {
+      const kwds = features.scan.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.scan).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('scan');
     });
   });
 
@@ -408,7 +489,12 @@ describe('features', () => {
       expect(m.chain).toHaveLength(2);
     });
 
-    it('should return Mediq instance', () => {
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('grid');
+    });
+
+    it('should return this', () => {
       const m = mediq();
       expect(m.grid(0)).toBe(m);
     });
@@ -423,6 +509,18 @@ describe('features', () => {
       expect(m.chain[0].value).toEqual('update');
       expect(m.chain).toHaveLength(1);
     });
+
+    it('should return keywords', () => {
+      const kwds = features.update.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.update).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('update');
+    });
   });
 
   describe('overflow-block', () => {
@@ -434,6 +532,18 @@ describe('features', () => {
       expect(m.chain[0].value).toEqual('overflow-block');
       expect(m.chain).toHaveLength(1);
     });
+
+    it('should return keywords', () => {
+      const kwds = features.overflowBlock.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.overflowBlock).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('overflowBlock');
+    });
   });
 
   describe('overflow-inline', () => {
@@ -444,6 +554,18 @@ describe('features', () => {
       expect(m.chain[0].type).toEqual('feature');
       expect(m.chain[0].value).toEqual('overflow-inline');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should return keywords', () => {
+      const kwds = features.overflowInline.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.overflowInline).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('overflowInline');
     });
   });
 
@@ -458,9 +580,14 @@ describe('features', () => {
       expect(m.chain).toHaveLength(2);
     });
 
-    it('should return Mediq instance', () => {
+    it('should return this', () => {
       const m = mediq();
       expect(m.color(8)).toBe(m);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('color');
     });
   });
 
@@ -472,6 +599,18 @@ describe('features', () => {
       expect(m.chain[0].type).toEqual('feature');
       expect(m.chain[0].value).toEqual('color-gamut');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should return keywords', () => {
+      const kwds = features.colorGamut.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.colorGamut).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('colorGamut');
     });
   });
 
@@ -486,9 +625,14 @@ describe('features', () => {
       expect(m.chain).toHaveLength(2);
     });
 
-    it('should return Mediq instance', () => {
+    it('should return this', () => {
       const m = mediq();
       expect(m.colorIndex(10)).toBe(m);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('colorIndex');
     });
   });
 
@@ -500,6 +644,18 @@ describe('features', () => {
       expect(m.chain[0].type).toEqual('feature');
       expect(m.chain[0].value).toEqual('display-mode');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should return keywords', () => {
+      const kwds = features.displayMode.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.displayMode).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('displayMode');
     });
   });
 
@@ -535,9 +691,14 @@ describe('features', () => {
       expect(m.chain).toHaveLength(2);
     });
 
-    it('should return Mediq instance', () => {
+    it('should return this', () => {
       const m = mediq();
       expect(m.monochrome(0)).toBe(m);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('monochrome');
     });
   });
 
@@ -550,6 +711,13 @@ describe('features', () => {
       expect(m.chain[0].value).toEqual('inverted-colors');
       expect(m.chain).toHaveLength(1);
     });
+
+    it('should return keywords', () => {
+      const kwds = features.invertedColors.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.invertedColors).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
   });
 
   describe('any-pointer', () => {
@@ -560,6 +728,18 @@ describe('features', () => {
       expect(m.chain[0].type).toEqual('feature');
       expect(m.chain[0].value).toEqual('any-pointer');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should return keywords', () => {
+      const kwds = features.anyPointer.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.anyPointer).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('anyPointer');
     });
   });
 
@@ -572,6 +752,18 @@ describe('features', () => {
       expect(m.chain[0].value).toEqual('pointer');
       expect(m.chain).toHaveLength(1);
     });
+
+    it('should return keywords', () => {
+      const kwds = features.pointer.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.pointer).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('pointer');
+    });
   });
 
   describe('any-hover', () => {
@@ -582,6 +774,18 @@ describe('features', () => {
       expect(m.chain[0].type).toEqual('feature');
       expect(m.chain[0].value).toEqual('any-hover');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should return keywords', () => {
+      const kwds = features.anyHover.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.anyHover).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('anyHover');
     });
   });
 
@@ -594,6 +798,18 @@ describe('features', () => {
       expect(m.chain[0].value).toEqual('hover');
       expect(m.chain).toHaveLength(1);
     });
+
+    it('should return keywords', () => {
+      const kwds = features.hover.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.hover).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('hover');
+    });
   });
 
   describe('light-level', () => {
@@ -604,6 +820,18 @@ describe('features', () => {
       expect(m.chain[0].type).toEqual('feature');
       expect(m.chain[0].value).toEqual('light-level');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should return keywords', () => {
+      const kwds = features.lightLevel.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.lightLevel).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('lightLevel');
     });
   });
 
@@ -616,6 +844,18 @@ describe('features', () => {
       expect(m.chain[0].value).toEqual('prefers-reduced-motion');
       expect(m.chain).toHaveLength(1);
     });
+
+    it('should return keywords', () => {
+      const kwds = features.prefersReducedMotion.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.prefersReducedMotion).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('prefersReducedMotion');
+    });
   });
 
   describe('scripting', () => {
@@ -626,6 +866,18 @@ describe('features', () => {
       expect(m.chain[0].type).toEqual('feature');
       expect(m.chain[0].value).toEqual('scripting');
       expect(m.chain).toHaveLength(1);
+    });
+
+    it('should return keywords', () => {
+      const kwds = features.scripting.keywords;
+      const m = mediq();
+      Object.keys(kwds).map(u => expect(m.scripting).toHaveProperty(u, m));
+      expect.assertions(Object.keys(kwds).length);
+    });
+
+    it('should be a property', () => {
+      const m = mediq();
+      expect(m).toHaveProperty('scripting');
     });
   });
 });
