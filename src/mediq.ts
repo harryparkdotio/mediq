@@ -1,6 +1,5 @@
 import { paramCase } from 'change-case';
-import { MediqAssembler } from './assembler';
-import { MediqChainProperty, Properties } from './chain';
+import { ChainType, MediqAssembler } from './assembler';
 import { features, Keywords, operatorMap, operators, prefixes, types, Units } from './map';
 
 // tslint:disable-next-line:no-namespace
@@ -22,8 +21,13 @@ export namespace Types {
   export type Scripting<T> = { [K in keyof typeof Keywords.Scripting]: T };
 }
 
+export interface IChain {
+  type: ChainType;
+  value: string | number;
+}
+
 export interface IMediq {
-  chain: MediqChainProperty[];
+  chain: IChain[];
 
   exec(): string;
   toString(): string;
@@ -77,15 +81,15 @@ export function mediq(): IMediq {
 
 export class Mediq {
   private assembler: MediqAssembler;
-  public chain: MediqChainProperty[];
+  public chain: IChain[];
 
   constructor() {
-    this.assembler = new MediqAssembler(this);
+    this.assembler = new MediqAssembler();
     this.chain = [];
   }
 
   private exec(): string {
-    return `@media ${this.assembler.assemble()}`;
+    return `@media ${this.assembler.assemble(this.chain)}`;
   }
 
   public toString(): string {
@@ -109,31 +113,43 @@ export class Mediq {
   }
 
   public type(type: string) {
-    this.chain.push(new Properties.MediqChainType(this.case(type)));
+    this.chain.push({
+      type: ChainType.type,
+      value: this.case(type),
+    });
   }
 
   public operator(operator: string) {
-    this.chain.push(new Properties.MediqChainOperator(operatorMap[operator] || operator));
+    this.chain.push({
+      type: ChainType.operator,
+      value: operatorMap[operator] || operator,
+    });
   }
 
   public prefix(prefix: string) {
-    this.chain.push(new Properties.MediqChainPrefix(prefix));
+    this.chain.push({
+      type: ChainType.prefix,
+      value: prefix,
+    });
   }
 
   public feature(feature: string) {
-    this.chain.push(new Properties.MediqChainFeature(this.case(feature)));
+    this.chain.push({
+      type: ChainType.feature,
+      value: this.case(feature),
+    });
   }
 
   public args(...args: any[]) {
-    args.map(arg => this.chain.push(new Properties.MediqChainValue(arg)));
+    args.map(arg => this.chain.push({ type: ChainType.value, value: arg }));
   }
 
   public keyword(keyword: string) {
-    this.chain.push(new Properties.MediqChainKeyword(this.case(keyword)));
+    this.chain.push({ type: ChainType.keyword, value: this.case(keyword) });
   }
 
   public units(units: string) {
-    this.chain.push(new Properties.MediqChainUnit(units));
+    this.chain.push({ type: ChainType.unit, value: units });
   }
 
   public [Symbol.toPrimitive](hint: 'string' | 'number' | 'default') {

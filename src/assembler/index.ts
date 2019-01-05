@@ -1,31 +1,30 @@
-import { MediqChainProperty } from '../chain';
-import { ChainPropertyTypes } from '../chain/property-types';
+import { IChain } from '../mediq';
 
-const featureGroupStartProps = [ChainPropertyTypes.prefix, ChainPropertyTypes.feature];
-const featureGroupEndProps = [ChainPropertyTypes.keyword, ChainPropertyTypes.unit];
-const featureGroupProps = [
-  ChainPropertyTypes.feature,
-  ChainPropertyTypes.keyword,
-  ChainPropertyTypes.prefix,
-  ChainPropertyTypes.unit,
-  ChainPropertyTypes.value,
-];
+export enum ChainType {
+  type = 'type',
+  operator = 'operator',
+  prefix = 'prefix',
+  feature = 'feature',
+  value = 'value',
+  keyword = 'keyword',
+  unit = 'unit',
+}
 
-export type MediqChainProperties = MediqChainProperty[];
-export type MediqChainPropertyGroups = MediqChainProperties[];
+const featureGroupStartProps = [ChainType.prefix, ChainType.feature];
+const featureGroupEndProps = [ChainType.keyword, ChainType.unit];
+const featureGroupProps = [ChainType.feature, ChainType.keyword, ChainType.prefix, ChainType.unit, ChainType.value];
+
+export type MediqChainPropertyGroups = IChain[][];
 
 export class MediqAssembler {
-  constructor(private mediq: any) {}
-
-  public assemble(): string {
-    const chain = this.mediq.chain;
+  public assemble(chain: IChain[]): string {
     const group = this.group(chain);
     const assembledProps = this.assembleProps(group);
 
     return assembledProps.join(' ').replace(' , ', ', ');
   }
 
-  public group(chain: MediqChainProperties): MediqChainPropertyGroups {
+  public group(chain: IChain[]): MediqChainPropertyGroups {
     let currentGroupIdx = 0;
 
     return chain.reduce((groups: MediqChainPropertyGroups, prop) => {
@@ -57,7 +56,7 @@ export class MediqAssembler {
     return propGroups.map(this.assembleProp.bind(this));
   }
 
-  public assembleProp(propGroup: MediqChainProperties): string {
+  public assembleProp(propGroup: IChain[]): string {
     if (propGroup.map(p => p.type).some(p => featureGroupProps.includes(p))) {
       const assembledFeature = this.assembleFeature(propGroup);
       return `(${assembledFeature})`;
@@ -71,12 +70,12 @@ export class MediqAssembler {
     }
   }
 
-  public assembleFeature(featureGroup: MediqChainProperties): string {
+  public assembleFeature(featureGroup: IChain[]): string {
     return featureGroup
       .reduce((group: string[], prop) => {
-        if (prop.type === ChainPropertyTypes.prefix) {
+        if (prop.type === ChainType.prefix) {
           group.push(`${prop.value}-`);
-        } else if (prop.type === ChainPropertyTypes.feature) {
+        } else if (prop.type === ChainType.feature) {
           group.push(`${prop.value}: `);
         } else {
           group.push(`${prop.value}`);
