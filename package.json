@@ -1,6 +1,6 @@
 {
   "name": "mediq",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "expressive media query builder",
   "main": "index.js",
   "module": "index.es.js",
