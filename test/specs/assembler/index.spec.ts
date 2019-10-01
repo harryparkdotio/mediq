@@ -1,18 +1,18 @@
 import { ChainType, MediqAssembler } from '../../../src/assembler';
-import { Mediq } from '../../../src/mediq';
+import { IChain, Mediq } from '../../../src/mediq';
 
 import * as generate from '../../utils/generate-properties';
 
-const features = [generate.feature()];
-const keywords = [generate.keyword()];
-const operators = [generate.operator()];
-const prefixes = [generate.prefix()];
-const values = [generate.value()];
-const types = [generate.type()];
-const units = [generate.unit()];
+const features: IChain[] = [generate.feature()];
+const keywords: IChain[] = [generate.keyword()];
+const operators: IChain[] = [generate.operator()];
+const prefixes: IChain[] = [generate.prefix()];
+const values: IChain[] = [generate.value()];
+const types: IChain[] = [generate.type()];
+const units: IChain[] = [generate.unit()];
 
 // #region assemble cases
-const assembleCases = [
+const assembleCases: Array<[string, IChain[]]> = [
   [
     'screen and (min-width: 200px)',
     [
@@ -46,7 +46,7 @@ const assembleCases = [
 // #endregion
 
 // #region group cases
-const groupCases = [
+const groupCases: Array<[string, IChain[], IChain[][]]> = [
   ['single feature + keyword', [features[0], keywords[0]], [[features[0], keywords[0]]]],
   ['single feature + value + units', [features[0], values[0], units[0]], [[features[0], values[0], units[0]]]],
   [
