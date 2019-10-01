@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "allowUnreachableCode": false,
-    "module": "commonjs",
+    "downlevelIteration": true,
+    "module": "esnext",
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "es6",
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -12,7 +13,7 @@
     "preserveConstEnums": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "lib": ["es2018"],
+    "lib": ["es2019"],
     "suppressImplicitAnyIndexErrors": true,
     "esModuleInterop": true
   },
